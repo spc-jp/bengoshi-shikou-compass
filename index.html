@@ -3,119 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>弁護士 思考コンパス（テスト版）</title>
+    <title>弁護士 思考コンパス Premium</title>
+    <!-- Google Fonts: Noto Serif JP (明朝体) を追加 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #0f4c81; /* 信頼感のあるネイビー */
-            --accent-color: #d9534f; /* 注意喚起の赤 */
-            --bg-color: #f4f7f9;
+            /* Premium Color Palette */
+            --primary-color: #102a43; /* 深みのあるミッドナイトブルー */
+            --primary-light: #243b55; /* グラデーション用 */
+            --premium-gold: #c5a059;  /* 落ち着いたゴールド */
+            --premium-gold-light: #e6c888;
+            
+            --accent-color: #d9534f; /* 注意喚起の赤（機能色は維持） */
+            
+            --bg-color: #f0f2f5;      /* 上質なペーパーグレー */
             --card-bg: #ffffff;
-            --text-color: #333;
-            --input-bg: #ffffff;
-            --input-border: #ccc;
-            --border-radius: 8px;
-            --shadow: 0 2px 4px rgba(0,0,0,0.05);
-            --modal-overlay: rgba(0,0,0,0.5);
+            --text-color: #2c3e50;
+            --input-bg: #fdfdfd;
+            --input-border: #dbe2e8;
+            
+            --border-radius: 6px; /* 角丸を少し控えめにしてシャープに */
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* 上品な影 */
+            --modal-overlay: rgba(16, 42, 67, 0.6);
         }
 
-        /* ダークモード用変数 */
+        /* ダークモード用変数（Premium Dark） */
         body.dark-mode {
-            --primary-color: #64b5f6; /* 明るめのブルー */
-            --accent-color: #ff8a80;
+            --primary-color: #1a2634;
+            --primary-light: #2c3e50;
+            --premium-gold: #d4af37;
+            --premium-gold-light: #f3e5ab;
+            
+            --accent-color: #ff6b6b;
+            
             --bg-color: #121212;
             --card-bg: #1e1e1e;
             --text-color: #e0e0e0;
-            --input-bg: #2c2c2c;
-            --input-border: #555;
-            --shadow: 0 2px 8px rgba(0,0,0,0.5);
-            --modal-overlay: rgba(255,255,255,0.1);
+            --input-bg: #252525;
+            --input-border: #444;
+            --shadow: 0 4px 12px rgba(0,0,0,0.5);
+            --modal-overlay: rgba(0,0,0,0.8);
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
-            line-height: 1.5;
+            line-height: 1.6;
             transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Typography - 明朝体で見出しを飾る */
+        h1, h2, h3, h4, h5 {
+            font-family: "Noto Serif JP", serif;
+            letter-spacing: 0.05em;
         }
 
         /* Utility */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            min-height: calc(100vh - 100px); /* フッター分を確保 */
+            min-height: calc(100vh - 100px);
         }
         .card {
             background: var(--card-bg);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
-            padding: 15px;
+            padding: 20px; /* 余白を増やしてゆとりを持たせる */
             margin-bottom: 20px;
-            border: 1px solid var(--input-border); /* ダークモード対応のため変数化 */
-            transition: background-color 0.3s, border-color 0.3s;
+            border: 1px solid var(--input-border);
+            border-top: 3px solid var(--primary-color); /* 上部にアクセントライン */
+            transition: all 0.3s ease;
         }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
         h2 {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: var(--primary-color);
-            border-bottom: 2px solid #eee;
-            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
         }
-        body.dark-mode h2 {
-            border-bottom-color: #444;
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 18px;
+            background-color: var(--premium-gold);
+            margin-right: 10px;
+            border-radius: 1px;
         }
-        h3 {
-            font-size: 0.95rem;
-            margin: 15px 0 5px 0;
-            color: #555;
-        }
-        body.dark-mode h3 {
-            color: #aaa;
-        }
+        
+        body.dark-mode h2 { border-bottom-color: #444; }
+        
         input[type="text"], input[type="date"], input[type="number"], select, textarea {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid var(--input-border);
-            border-radius: 4px;
+            border-radius: var(--border-radius);
             font-size: 0.95rem;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             background-color: var(--input-bg);
             color: var(--text-color);
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--premium-gold);
+            box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+        }
+        
+        select.template-select {
+            font-size: 0.85rem;
+            color: #555;
+            background-color: rgba(0,0,0,0.02);
+            margin-bottom: 10px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-family: "Noto Sans JP", sans-serif;
+        }
+        select.template-select:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+        body.dark-mode select.template-select {
+            background-color: rgba(255,255,255,0.05);
+            color: #ccc;
+        }
+
         textarea {
             resize: vertical;
             min-height: 200px;
             font-family: inherit;
+            line-height: 1.8; /* 行間を広げて可読性アップ */
         }
         label {
             display: block;
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #666;
-            margin-bottom: 3px;
+            font-size: 0.8rem;
+            font-weight: 600; /* 少し細く */
+            color: #555;
+            margin-bottom: 4px;
+            font-family: "Noto Sans JP", sans-serif;
         }
-        body.dark-mode label {
-            color: #aaa;
-        }
+        body.dark-mode label { color: #aaa; }
 
-        /* Header Area */
+        /* Header Area - Premium Gradient */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            color: white;
+            border-bottom: 2px solid var(--premium-gold);
         }
         .header-left h1 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
+            font-size: 1.6rem;
             margin: 0;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .header-left span {
+            font-family: "Noto Sans JP", sans-serif;
+            font-weight: normal;
+            font-size: 0.8rem;
+            color: var(--premium-gold-light);
+            margin-left: 10px;
+            letter-spacing: 0.05em;
         }
         .header-right {
             display: flex;
@@ -123,14 +191,14 @@
             gap: 15px;
         }
         .icon-btn {
-            background: none;
-            border: none;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
             cursor: pointer;
-            font-size: 1.5rem;
-            color: var(--text-color);
-            padding: 5px;
+            font-size: 1.2rem;
+            color: white;
+            padding: 8px;
             border-radius: 50%;
-            transition: background 0.2s;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -138,40 +206,69 @@
             height: 40px;
         }
         .icon-btn:hover {
-            background-color: rgba(0,0,0,0.05);
-        }
-        body.dark-mode .icon-btn:hover {
-            background-color: rgba(255,255,255,0.1);
+            background-color: var(--premium-gold);
+            border-color: var(--premium-gold);
+            color: var(--primary-color);
+            transform: scale(1.05);
         }
         .btn-text {
             font-size: 0.9rem;
-            font-weight: bold;
-            color: var(--primary-color);
+            font-weight: 500;
+            color: white;
             text-decoration: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 5px;
+            background: none;
+            border: none;
+            font-family: "Noto Sans JP", sans-serif;
         }
+        .btn-text:hover { color: var(--premium-gold-light); }
         
         /* Section 1: Case Header */
-        .case-header-grid {
-            display: grid;
-            gap: 15px;
-        }
-        .row-1, .row-2 {
-            display: grid;
-            gap: 15px;
-        }
-        .row-1 { grid-template-columns: 2fr 1fr 1fr 1fr; }
-        .row-2 { grid-template-columns: 1fr 1fr 1fr; }
+        .case-header-grid { display: grid; gap: 20px; }
+        .row-1 { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 20px; }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
 
-        .conflict-check-group select {
-            font-weight: bold;
+        .conflict-check-group select { font-weight: bold; }
+        .status-ok { color: #27ae60; font-weight: bold; }
+        .status-warn { color: #c0392b; background-color: #fce4ec; border-color: #c0392b; font-weight: bold; }
+        body.dark-mode .status-warn { background-color: #3e2723; }
+
+        /* Conflict Alert */
+        .input-group-with-btn { display: flex; gap: 5px; align-items: flex-start; }
+        .btn-search {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            padding: 10px 12px;
+            color: #666;
+            transition: all 0.2s;
         }
-        .status-ok { color: green; }
-        .status-warn { color: var(--accent-color); background-color: #fff0f0; }
-        body.dark-mode .status-warn { background-color: #330000; }
+        .btn-search:hover {
+            border-color: var(--premium-gold);
+            color: var(--premium-gold-dark);
+            background-color: rgba(197, 160, 89, 0.05);
+        }
+        .conflict-alert {
+            display: none;
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin-top: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        .conflict-detected input {
+            border: 2px solid var(--accent-color) !important;
+            background-color: #fff5f5 !important;
+        }
 
         /* Section 2: 3 Columns */
         .main-columns {
@@ -179,209 +276,125 @@
             grid-template-columns: 1fr 1fr 1fr;
             gap: 20px;
         }
-        .col {
-            display: flex;
-            flex-direction: column;
-        }
+        .col { display: flex; flex-direction: column; }
+        
+        /* Fee Section */
         .fee-section {
-            background-color: #fcfcfc;
-            border-top: 2px dashed #ddd;
-            padding-top: 10px;
+            background-color: rgba(0,0,0,0.02);
+            border: 1px solid var(--input-border);
+            border-radius: var(--border-radius);
+            padding: 15px;
             margin-top: 15px;
         }
-        body.dark-mode .fee-section {
-            background-color: #252525;
-            border-top-color: #555;
-        }
-        .fee-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        .fee-row label {
-            width: 80px;
-            margin-bottom: 0;
-            font-size: 0.8rem;
-        }
-        .fee-row input {
-            flex: 1;
-            text-align: right;
-        }
-        .fee-unit {
-            margin-left: 5px;
-            font-size: 0.8rem;
-            color: #666;
-        }
-        body.dark-mode .fee-unit {
-            color: #aaa;
-        }
-
-        /* Section 3: ToDo */
-        .todo-input-area {
-            display: flex;
-            gap: 10px;
-            align-items: flex-end;
-            margin-bottom: 15px;
-        }
-        .todo-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .todo-item {
-            display: flex;
-            align-items: center;
-            padding: 8px;
-            border-bottom: 1px solid #eee;
-            gap: 10px;
-        }
-        body.dark-mode .todo-item { border-bottom-color: #444; }
-        .todo-item:last-child { border-bottom: none; }
-        .priority-high { color: var(--accent-color); font-weight: bold; font-size: 0.8rem; border: 1px solid var(--accent-color); padding: 1px 4px; border-radius: 3px; }
-        .priority-mid { color: #e67e22; font-size: 0.8rem; border: 1px solid #e67e22; padding: 1px 4px; border-radius: 3px; }
-        .priority-low { color: #27ae60; font-size: 0.8rem; border: 1px solid #27ae60; padding: 1px 4px; border-radius: 3px; }
+        body.dark-mode .fee-section { background-color: rgba(255,255,255,0.03); }
         
+        .fee-category-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-family: "Noto Serif JP", serif;
+        }
+        .fee-category-title::before {
+            background-color: var(--premium-gold);
+        }
+        .fee-row { display: flex; align-items: center; margin-bottom: 8px; }
+        .fee-row label { width: 70px; margin-bottom: 0; font-size: 0.8rem; color: #666; }
+        .fee-row input { flex: 1; text-align: right; padding: 6px 10px; }
+        
+        /* Buttons - Premium Style */
         .btn {
-            background-color: var(--primary-color);
+            background: linear-gradient(to bottom, var(--primary-color), #0a1f33);
             color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
+            border: 1px solid var(--primary-color);
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
             cursor: pointer;
             font-size: 0.9rem;
-            transition: opacity 0.2s;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            font-family: "Noto Sans JP", sans-serif;
         }
-        .btn:hover { opacity: 0.9; }
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            background: var(--primary-color);
+        }
+        
         .btn-outline {
-            background-color: transparent;
+            background: transparent;
             border: 1px solid var(--primary-color);
             color: var(--primary-color);
+            box-shadow: none;
         }
-        .btn-outline:hover { background-color: rgba(15, 76, 129, 0.1); }
-        body.dark-mode .btn-outline:hover { background-color: rgba(100, 181, 246, 0.1); }
-        .btn-sm { padding: 6px 12px; font-size: 0.85rem; }
+        .btn-outline:hover {
+            background-color: rgba(16, 42, 67, 0.05);
+            transform: none;
+            box-shadow: none;
+        }
+        body.dark-mode .btn-outline { border-color: #64b5f6; color: #64b5f6; }
 
-        /* Section 4: Output Buttons */
+        /* ToDo Section */
+        .todo-input-area { display: flex; gap: 10px; align-items: center; margin-bottom: 15px; }
+        .todo-input-main { flex: 2; display: flex; align-items: center; gap: 5px; position: relative; }
+        .mic-btn-mini {
+            background: none; border: 1px solid #ccc; border-radius: 50%; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: #666; flex-shrink: 0; transition: all 0.2s;
+        }
+        .mic-btn-mini:hover { border-color: var(--premium-gold); color: var(--premium-gold); }
+        .mic-btn-mini.recording-active { color: var(--accent-color); border-color: var(--accent-color); background-color: #fff0f0; }
+        
+        .todo-list { list-style: none; padding: 0; margin: 0; }
+        .todo-item {
+            display: flex; align-items: center; padding: 10px;
+            border-bottom: 1px solid #eee; gap: 10px; transition: background 0.2s;
+        }
+        .todo-item:hover { background-color: rgba(0,0,0,0.01); }
+        .btn-calendar {
+            background: none; border: none; cursor: pointer; font-size: 1.2rem; margin-right: 5px;
+            transition: transform 0.2s; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%;
+        }
+        .btn-calendar:hover { transform: scale(1.2); }
+
+        /* Output Area */
         .output-area {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
+            display: flex; gap: 20px; justify-content: center; margin-top: 40px; margin-bottom: 30px; padding-top: 30px; border-top: 1px solid #ddd;
         }
-        body.dark-mode .output-area { border-top-color: #555; }
-        .output-btn-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-        .output-desc {
-            font-size: 0.75rem;
-            color: #666;
-        }
-        body.dark-mode .output-desc { color: #aaa; }
+        .output-btn-group { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .output-desc { font-size: 0.75rem; color: #888; margin-top: 2px; }
 
-        /* Utility Footer (Demo/Clear) */
-        .utility-footer {
-            text-align: center;
-            margin-bottom: 40px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        .btn-text-sub {
-            background: none;
-            border: none;
-            color: #999;
-            font-size: 0.8rem;
-            cursor: pointer;
-            text-decoration: underline;
-        }
+        /* Utility Footer */
+        .utility-footer { text-align: center; margin-bottom: 40px; display: flex; justify-content: center; gap: 20px; }
+        .btn-text-sub { background: none; border: none; color: #999; font-size: 0.8rem; cursor: pointer; text-decoration: underline; font-family: "Noto Sans JP", sans-serif; }
         .btn-text-sub:hover { color: var(--primary-color); }
 
-        /* Copyright Footer */
-        .main-footer {
-            text-align: center;
-            padding: 20px;
-            color: #999;
-            font-size: 0.8rem;
-            border-top: 1px solid #eee;
-        }
-        body.dark-mode .main-footer { border-top-color: #333; }
+        /* Footer */
+        .main-footer { text-align: center; padding: 20px; color: #999; font-size: 0.8rem; border-top: 1px solid #eee; background-color: var(--card-bg); }
 
-        /* Modal */
+        /* Modals - Slightly Translucent */
         .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--modal-overlay);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            backdrop-filter: blur(2px);
+            justify-content: center; align-items: center; z-index: 1000;
         }
         .modal {
-            background: var(--card-bg);
-            padding: 20px;
-            width: 80%;
-            max-width: 800px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            max-height: 90vh;
-            color: var(--text-color);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--input-border);
+            background: var(--card-bg); padding: 30px; width: 80%; max-width: 800px; border-radius: 8px; display: flex; flex-direction: column; max-height: 90vh; color: var(--text-color);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2); border: 1px solid var(--input-border);
         }
-        .modal-sm {
-            max-width: 500px;
+        .modal-header { border-bottom: 2px solid var(--premium-gold); }
+        .modal-header h3 { font-family: "Noto Serif JP", serif; color: var(--primary-color); }
+
+        /* Guide */
+        .guide-section {
+            background-color: #f8f9fa; border-radius: 6px; padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--primary-color);
         }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        body.dark-mode .modal-header { border-bottom-color: #444; }
-        .modal-body {
-            overflow-y: auto;
-            padding-bottom: 10px;
-        }
-        .modal-body textarea {
-            height: 300px;
-            font-family: monospace;
-        }
-        
-        /* Settings Modal Specific */
-        .settings-row {
-            margin-bottom: 15px;
-        }
-        .theme-options {
-            display: flex;
-            gap: 15px;
-        }
-        .theme-option {
-            border: 1px solid var(--input-border);
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .theme-option.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-        
-        /* Usage Modal Specific */
-        .usage-list {
-            padding-left: 20px;
-        }
-        .usage-list li {
-            margin-bottom: 8px;
-        }
+        body.dark-mode .guide-section { background-color: rgba(255,255,255,0.05); }
+        .guide-step { margin-bottom: 20px; }
+        .guide-step h5 { color: var(--primary-color); font-family: "Noto Serif JP", serif; border-bottom: 1px dashed #ccc; padding-bottom: 5px; margin-bottom: 10px; font-size: 1.05rem; }
+        .guide-text { line-height: 1.7; font-size: 0.9rem; }
 
         /* Responsive */
         @media (max-width: 900px) {
@@ -399,11 +412,11 @@
     <!-- Header -->
     <header>
         <div class="header-left">
-            <h1>弁護士 思考コンパス<span style="font-size:0.6em; margin-left:10px; color:#666;">（テスト版）</span></h1>
+            <h1>弁護士 思考コンパス<span>Premium</span></h1>
         </div>
         <div class="header-right">
             <button class="btn-text" onclick="openModal('usageModal')">
-                <span>📖</span> 使い方
+                <span>📖</span> 使い方ガイド
             </button>
             <button class="icon-btn" onclick="openModal('settingsModal')" title="設定">
                 ⚙️
@@ -424,8 +437,16 @@
                     <input type="text" id="clientName" placeholder="山田 太郎">
                 </div>
                 <div>
-                    <label>相手方</label>
-                    <input type="text" id="opponentName" placeholder="鈴木 次郎">
+                    <label>相手方（<span style="color:var(--accent-color);">※自動チェック対象</span>）</label>
+                    <div class="input-group-with-btn" id="opponentGroup">
+                        <div style="flex:1;">
+                            <input type="text" id="opponentName" placeholder="鈴木 次郎" oninput="checkConflict()">
+                            <div id="conflictAlert" class="conflict-alert">⚠️ 【受任不可】過去の相手方リストに含まれています！</div>
+                        </div>
+                        <button class="btn-search" onclick="openCalendarSearch()" title="Googleカレンダーで検索">
+                            🔍 Calendar
+                        </button>
+                    </div>
                 </div>
                 <div>
                     <label>分野</label>
@@ -471,47 +492,113 @@
 
     <!-- 2. Main 3 Columns -->
     <div class="main-columns">
-        <!-- Left Column -->
+        <!-- Left Column: Consultation -->
         <div class="col card">
             <h2>相談・事実関係</h2>
+            <select class="template-select" onchange="insertTemplate('facts', this.value); this.value='';" >
+                <option value="" disabled selected>▼ よくある相談雛形を挿入</option>
+                <optgroup label="一般民事">
+                    <option value="debt">債権回収（貸金・売掛金）</option>
+                    <option value="realestate">不動産（賃貸・明渡し）</option>
+                    <option value="traffic">交通事故（物損・人身）</option>
+                    <option value="internet">ネット誹謗中傷・発信者情報開示</option>
+                </optgroup>
+                <optgroup label="家事・相続">
+                    <option value="divorce">離婚・男女問題</option>
+                    <option value="inheritance">相続・遺言</option>
+                    <option value="guardianship">成年後見</option>
+                </optgroup>
+                <optgroup label="企業・労働">
+                    <option value="labor">労働（解雇・残業代）</option>
+                    <option value="corporate">企業法務（契約書チェック）</option>
+                    <option value="bankruptcy">破産・債務整理（法人/個人）</option>
+                </optgroup>
+                <optgroup label="刑事">
+                    <option value="criminal">刑事事件（被疑者・被告人）</option>
+                </optgroup>
+            </select>
             <textarea id="facts" placeholder="・時系列&#10;・相談者が主張する事実&#10;・証拠の有無"></textarea>
         </div>
 
-        <!-- Center Column -->
+        <!-- Center Column: Issues -->
         <div class="col card">
             <h2>論点・判例メモ</h2>
+            <select class="template-select" onchange="insertTemplate('issues', this.value); this.value='';">
+                <option value="" disabled selected>▼ 調査・検討フレームを挿入</option>
+                <optgroup label="法的検討フレーム">
+                    <option value="requirements">要件事実の整理（請求原因・抗弁）</option>
+                    <option value="keywords">類似判例検索ワード・争点</option>
+                    <option value="timeline">時効・期間制限・出訴期間</option>
+                    <option value="evidence">証拠一覧（書証・人証）</option>
+                    <option value="risk">勝訴見込み・リスク分析</option>
+                </optgroup>
+                <optgroup label="計算・基準">
+                    <option value="negligence">過失割合（別冊判例タイムズ）</option>
+                    <option value="compensation">慰謝料算定基準（赤本・青本）</option>
+                    <option value="child_support">養育費・婚姻費用算定表</option>
+                    <option value="sentencing">刑事事件・量刑相場</option>
+                </optgroup>
+            </select>
             <textarea id="issues" placeholder="・法的構成&#10;・争点となりそうな事実&#10;・リサーチが必要な判例"></textarea>
         </div>
 
-        <!-- Right Column -->
+        <!-- Right Column: Strategy -->
         <div class="col card">
             <h2>方針・リスク整理</h2>
+            <select class="template-select" onchange="insertTemplate('strategy', this.value); this.value='';">
+                <option value="" disabled selected>▼ 対応・アクション案を挿入</option>
+                <optgroup label="交渉・通知">
+                    <option value="notice">内容証明郵便の送付</option>
+                    <option value="negotiation">交渉・示談の提案</option>
+                    <option value="notary">公正証書の作成（執行認諾文言付）</option>
+                </optgroup>
+                <optgroup label="裁判所手続">
+                    <option value="mediation">調停・ADR申立て</option>
+                    <option value="litigation">訴訟提起</option>
+                    <option value="dunning">支払督促申立て</option>
+                    <option value="provisional">保全処分（仮差押・仮処分）</option>
+                    <option value="settlement">即決和解（起訴前の和解）</option>
+                </optgroup>
+                <optgroup label="その他">
+                    <option value="complaint">刑事告訴・告発</option>
+                    <option value="decline">受任見送り・継続相談</option>
+                </optgroup>
+            </select>
             <textarea id="strategy" style="min-height: 150px;" placeholder="・解決のゴール設定&#10;・交渉/訴訟の選択&#10;・敗訴リスク"></textarea>
 
-            <!-- Fee Section -->
+            <!-- Fee Section Updated -->
             <div class="fee-section">
-                <h3>費用目安レンジ（税込）</h3>
-                <div class="fee-row">
-                    <label>内容証明</label>
-                    <input type="text" id="feeContentCert" placeholder="例：3.3〜5.5">
-                    <span class="fee-unit">万円</span>
+                <h3>費用目安（税込）</h3>
+                <div class="fee-category">
+                    <div class="fee-category-title">1. タイムチャージ（時間制）</div>
+                    <div class="fee-row">
+                        <label>単価</label>
+                        <input type="text" id="feeTimeCharge" placeholder="例：3.3">
+                        <span class="fee-unit">万円 / 1h</span>
+                    </div>
                 </div>
-                <div class="fee-row">
-                    <label>交渉</label>
-                    <input type="text" id="feeNeg" placeholder="例：11〜22">
-                    <span class="fee-unit">万円</span>
+                <div class="fee-category">
+                    <div class="fee-category-title">2. 着手金・報酬金方式</div>
+                    <div class="fee-row">
+                        <label>着手金</label>
+                        <input type="text" id="feeStart" placeholder="例：請求額の8.8%">
+                        <span class="fee-unit"></span>
+                    </div>
+                    <div class="fee-row">
+                        <label>報酬金</label>
+                        <input type="text" id="feeSuccess" placeholder="例：経済的利益の17.6%">
+                        <span class="fee-unit"></span>
+                    </div>
                 </div>
-                <div class="fee-row">
-                    <label>調停</label>
-                    <input type="text" id="feeMediation" placeholder="">
-                    <span class="fee-unit">万円</span>
+                <div class="fee-category" style="border-bottom: none;">
+                    <div class="fee-category-title">3. 手数料（定額・スポット）</div>
+                    <div class="fee-row">
+                        <label>定額</label>
+                        <input type="text" id="feeSpot" placeholder="例：書面作成 5.5">
+                        <span class="fee-unit">万円</span>
+                    </div>
                 </div>
-                <div class="fee-row">
-                    <label>訴訟</label>
-                    <input type="text" id="feeLitigation" placeholder="例：33〜">
-                    <span class="fee-unit">万円</span>
-                </div>
-                <label style="margin-top:5px;">備考（日当・実費等）</label>
+                <label style="margin-top:5px; font-size:0.8rem; color:#666;">備考（経済的利益の試算・日当・実費等）</label>
                 <textarea id="feeRemarks" style="min-height: 60px;" placeholder="実費別、日当3.3万/回 など"></textarea>
             </div>
         </div>
@@ -520,22 +607,33 @@
     <!-- 3. ToDo Section -->
     <section class="card" id="todo-section">
         <h2>ToDo／期限管理</h2>
-        <div style="margin-bottom: 10px; text-align: right;">
-            <button class="btn btn-outline btn-sm" onclick="insertTemplateTodo()">相談内容からToDo雛形を挿入</button>
-        </div>
+        <select id="todo-preset-select" class="template-select" onchange="setQuickTodo(this.value); this.value='';" style="margin-bottom: 10px; width: 100%;">
+            <option value="" disabled selected>▼ よくあるタスクを選択（クリックで入力）</option>
+            <option value="委任契約書の作成">委任契約書の作成</option>
+            <option value="訴状・書面の起案">訴状・書面の起案</option>
+            <option value="証拠資料の精査">証拠資料の精査</option>
+            <option value="依頼者への報告連絡">依頼者への報告連絡</option>
+            <option value="期日出頭・報告">期日出頭・報告</option>
+        </select>
         
         <div class="todo-input-area">
-            <div style="flex: 2;">
-                <label>ToDo内容</label>
-                <input type="text" id="newTodoText" placeholder="新しいタスクを入力">
+            <div class="todo-input-main">
+                <input type="text" id="newTodoText" placeholder="タスクを入力" style="margin-bottom: 0;">
+                <button onclick="toggleSpeech('newTodoText', this)" class="mic-btn-mini" title="音声入力">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <line x1="12" y1="19" x2="12" y2="23"></line>
+                        <line x1="8" y1="23" x2="16" y2="23"></line>
+                    </svg>
+                </button>
             </div>
+            
             <div style="flex: 1;">
-                <label>期限</label>
-                <input type="date" id="newTodoDate">
+                <input type="date" id="newTodoDate" style="margin-bottom: 0;">
             </div>
             <div style="width: 100px;">
-                <label>優先度</label>
-                <select id="newTodoPriority">
+                <select id="newTodoPriority" style="margin-bottom: 0;">
                     <option value="高">高</option>
                     <option value="中" selected>中</option>
                     <option value="低">低</option>
@@ -547,25 +645,29 @@
         <ul id="todoList" class="todo-list">
             <!-- JS populates this -->
         </ul>
+        
+        <div style="margin-top: 10px; text-align: right;">
+            <button class="btn btn-outline btn-sm" onclick="insertTemplateTodo()">基本セットを一括挿入</button>
+        </div>
     </section>
 
     <!-- 4. Output Buttons -->
     <footer class="output-area">
         <div class="output-btn-group">
-            <button class="btn" style="background-color: #555;" onclick="generateOutput('internal')">① 事務所内共有用 出力</button>
+            <button class="btn" style="background-color: #34495e;" onclick="generateOutput('internal')">① 事務所内共有用</button>
             <span class="output-desc">詳細・メモ含む全文</span>
         </div>
         <div class="output-btn-group">
-            <button class="btn" style="background-color: var(--primary-color);" onclick="generateOutput('client')">② 依頼者説明用 出力</button>
+            <button class="btn" onclick="generateOutput('client')">② 依頼者説明用</button>
             <span class="output-desc">方針・費用を中心に整理</span>
         </div>
         <div class="output-btn-group">
-            <button class="btn" style="background-color: #27ae60;" onclick="generateOutput('estimate')">③ 見積たたき用 出力</button>
+            <button class="btn" style="background-color: #27ae60; border-color:#27ae60;" onclick="generateOutput('estimate')">③ 見積たたき用</button>
             <span class="output-desc">概算費用のみ抽出</span>
         </div>
     </footer>
 
-    <!-- Utility Links (Demo/Clear) -->
+    <!-- Utility Links -->
     <div class="utility-footer">
         <button class="btn-text-sub" onclick="fillDemoData()">デモデータを入力</button>
         <button class="btn-text-sub" onclick="clearData()">入力をクリア</button>
@@ -575,7 +677,7 @@
 
 <!-- Footer -->
 <footer class="main-footer">
-    テスト版（ベータ版） © 2026 SPC
+    Professional Edition v1.0 © 2026 SPC
 </footer>
 
 <!-- Modals -->
@@ -591,13 +693,13 @@
             <div class="settings-row">
                 <label>画面テーマ</label>
                 <div class="theme-options">
-                    <div class="theme-option active" id="themeLight" onclick="setTheme('light')">ライト</div>
-                    <div class="theme-option" id="themeDark" onclick="setTheme('dark')">ダーク</div>
+                    <div class="theme-option active" id="themeLight" onclick="setTheme('light')">Light (Premium)</div>
+                    <div class="theme-option" id="themeDark" onclick="setTheme('dark')">Dark (Premium)</div>
                 </div>
             </div>
             <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
             <div class="settings-row">
-                <label>弁護士基本情報（出力時に使用）</label>
+                <label>弁護士基本情報</label>
                 <div style="margin-bottom:10px;">
                     <label>事務所名</label>
                     <input type="text" id="lawyerOffice" placeholder="例：東京中央法律事務所">
@@ -607,6 +709,22 @@
                     <input type="text" id="lawyerName" placeholder="例：弁護士 法務 太郎">
                 </div>
             </div>
+            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+            <div class="settings-row">
+                <label>外部連携設定</label>
+                <div style="margin-bottom:10px;">
+                    <label style="font-size:0.8rem; color:#666;">Googleアカウント（カレンダー連携用メモ）</label>
+                    <input type="text" id="googleAccount" class="save-target" placeholder="example@gmail.com">
+                </div>
+            </div>
+            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+            <div class="settings-row">
+                <label>利益相反チェック用DB（ブラックリスト）</label>
+                <p style="font-size:0.75rem; color:#666; margin-bottom:5px;">
+                    改行区切りで登録してください。
+                </p>
+                <textarea id="conflictDatabase" class="save-target" style="height:100px; font-family:monospace;" placeholder="佐藤次郎&#13;&#10;鈴木三郎"></textarea>
+            </div>
         </div>
         <div style="margin-top: 15px; text-align: right;">
             <button class="btn" onclick="closeModal('settingsModal')">閉じる</button>
@@ -614,30 +732,54 @@
     </div>
 </div>
 
-<!-- Usage Modal -->
+<!-- Usage Guide Modal (Refined) -->
 <div class="modal-overlay" id="usageModal">
-    <div class="modal modal-sm">
+    <div class="modal modal-sm" style="max-width: 650px;">
         <div class="modal-header">
-            <h3>使い方・目的</h3>
+            <h3>使い方・活用ガイド</h3>
             <button class="btn btn-sm btn-outline" onclick="closeModal('usageModal')">×</button>
         </div>
         <div class="modal-body">
-            <h4>【目的】</h4>
-            <p>相談対応時の思考プロセス（事実整理→論点抽出→方針策定→費用提示）を1画面で完結させ、スムーズな業務遂行と、事務局への指示出し・依頼者への回答作成を効率化します。</p>
-            
-            <h4>【使い方】</h4>
-            <ul class="usage-list">
-                <li><strong>ヘッダー入力：</strong> 案件の基本情報と、利益相反・期限などのクリティカルな情報を入力します。</li>
-                <li><strong>3カラム整理：</strong> 
-                    <ul>
-                        <li>左：相談者から聞き取った事実</li>
-                        <li>中：法的論点やリサーチメモ</li>
-                        <li>右：解決方針と、概算の費用感</li>
-                    </ul>
-                </li>
-                <li><strong>ToDo作成：</strong> 必要なタスクを登録。「雛形挿入」で初動タスクを一括登録できます。</li>
-                <li><strong>出力：</strong> 用途（所内・依頼者・見積）に合わせてテキストを自動生成し、メールやチャットなどにペーストできます。</li>
-            </ul>
+            <div class="guide-section">
+                <h4 style="margin:0 0 5px 0; color:var(--primary-color);">📌 はじめに</h4>
+                <p class="guide-text">
+                    このツールは、日々の法律相談や案件管理をスムーズにするためのパートナーです。<br>
+                    特に<strong>Googleカレンダーとの連携</strong>を活用することで、スケジュール管理の手間を大幅に減らせます。
+                </p>
+            </div>
+
+            <div class="guide-step">
+                <h5>Step 1. まずは「設定」から準備（重要！）</h5>
+                <p class="guide-text">
+                    画面右上の <span style="font-size:1.2em">⚙️</span> ボタンを押して「設定」を開きましょう。<br>
+                    <strong>「外部連携設定」</strong>にご自身のGoogleアカウント（Gmailアドレス）を入力しておくと、後でカレンダーを開く際にどのアカウントで作業しているか確認しやすくなります。
+                </p>
+            </div>
+
+            <div class="guide-step">
+                <h5>Step 2. 利益相反をサクッと確認</h5>
+                <p class="guide-text">
+                    「相手方」の名前を入力してみてください。過去に登録した「要注意リスト」にある名前なら、すぐに画面が赤くなって警告します。<br>
+                    さらに <span style="border:1px solid #ccc; border-radius:3px; padding:0 3px;">🔍 Calendar</span> ボタンを押せば、あなたのGoogleカレンダーを一発検索。「以前いつ会ったか？」がすぐに分かります。
+                </p>
+            </div>
+
+            <div class="guide-step">
+                <h5>Step 3. タスクをカレンダーへ直結</h5>
+                <p class="guide-text">
+                    ToDoリストに「訴状作成」などのタスクと期限を入力したら、横にある <span style="font-size:1.2em">📅</span> ボタンをポチッと押すだけ。<br>
+                    <strong>自動的にGoogleカレンダーの予定作成画面が開きます。</strong><br>
+                    件名や日時が既に入力されているので、あとは「保存」を押すだけでスケジュール登録完了です。
+                </p>
+            </div>
+
+            <div class="guide-step">
+                <h5>Step 4. 思考整理と仕上げ</h5>
+                <p class="guide-text">
+                    事実・論点・方針を整理し、最後に画面下のボタンでテキストとして書き出せます。<br>
+                    「匿名化してコピー」を使えば、個人名を伏せてチャット等に貼り付けられるので安心です。
+                </p>
+            </div>
         </div>
         <div style="margin-top: 15px; text-align: right;">
             <button class="btn" onclick="closeModal('usageModal')">閉じる</button>
@@ -655,27 +797,77 @@
         <div class="modal-body">
             <textarea id="outputText"></textarea>
         </div>
-        <div style="margin-top: 10px; text-align: right;">
-            <button class="btn" onclick="copyToClipboard()">クリップボードにコピー</button>
+        <div style="margin-top: 10px; display: flex; justify-content: flex-end; gap: 10px;">
+            <button class="btn" onclick="copyToClipboard()">📋 コピー</button>
         </div>
     </div>
 </div>
 
 <script>
-    // --- Modal Logic ---
-    function openModal(id) {
-        document.getElementById(id).style.display = 'flex';
-    }
-    function closeModal(id) {
-        document.getElementById(id).style.display = 'none';
+    // Constants & Templates
+    const TEMPLATES = {
+        debt: "【相談種別】債権回収\n【債権の種類】売掛金・貸金\n【契約書の有無】あり・なし\n【相手方の対応】音信不通・支払意思あり・資力不明\n【希望する解決】早期回収・分割払いでも可・強硬手段辞さず\n\n【詳細な事実経緯】\n",
+        divorce: "【相談種別】離婚・男女問題\n【当事者属性】婚姻年数○年・子○人（○歳）\n【主な争点】親権・養育費・財産分与・慰謝料・年金分割\n【相手方の態度】離婚拒否・条件次第・モラハラ気味\n【別居の有無】別居中（期間○ヶ月）\n\n【詳細な相談内容】\n",
+        realestate: "【相談種別】不動産（賃貸・明渡し）\n【物件概要】居住用・事業用（月額賃料○万円）\n【滞納期間】○ヶ月分\n【信頼関係破壊】用法遵守違反・騒音・無断転貸\n【契約解除通知】未送付・送付済み\n\n【詳細な事実関係】\n",
+        labor: "【相談種別】労働トラブル\n【立場】企業側・労働者側\n【問題】不当解雇・残業代未払い・パワハラ・懲戒処分\n【就業規則】あり・なし\n【証拠】タイムカード・メール・録音\n\n【詳細な経緯】\n",
+        inheritance: "【相談種別】相続・遺言\n【被相続人】死亡日：○年○月○日\n【相続人】配偶者、子○名\n【遺産内容】不動産、預貯金（約○万円）、株式\n【遺言書の有無】自筆証書・公正証書・なし\n【争点】遺産分割協議・寄与分・特別受益・遺留分\n\n【詳細な相談内容】\n",
+        traffic: "【相談種別】交通事故\n【事故態様】物件事故・人身事故\n【怪我の状況】治療中・症状固定（等級○級）\n【過失割合の争い】あり・なし（相手方主張：○対○）\n【損害賠償額】提示額：○万円\n\n【詳細な事故状況】\n",
+        internet: "【相談種別】ネット誹謗中傷\n【対象サイト】X(Twitter)・5ch・Google口コミ・Instagram\n【投稿内容】名誉毀損・プライバシー侵害・侮辱\n【投稿日時】○年○月○日\n【証拠保存】URL・スクリーンショット確保済み\n\n【詳細な投稿内容】\n",
+        guardianship: "【相談種別】成年後見\n【本人】年齢：○歳、診断名：認知症など\n【類型の見込み】後見・保佐・補助\n【財産状況】不動産、預貯金\n【候補者】親族・専門職希望\n\n【詳細な事情】\n",
+        corporate: "【相談種別】企業法務・契約書チェック\n【契約類型】業務委託・売買・秘密保持・代理店\n【当方の立場】委託側・受託側\n【特に懸念している点】損害賠償条項・解除条項・競業避止\n\n【詳細な相談内容】\n",
+        bankruptcy: "【相談種別】破産・債務整理\n【主体】法人・個人\n【負債総額】約○万円（債権者数：○社）\n【資産状況】現金・預金・売掛金・不動産\n【税金滞納】あり・なし\n\n【詳細な経営/生活状況】\n",
+        criminal: "【相談種別】刑事事件\n【罪名】\n【身柄】逮捕・勾留・在宅\n【前科・前歴】\n【被害弁償】未済・示談交渉中\n【認否】認めている・否認・黙秘\n\n【詳細な事実関係】\n",
+        requirements: "【要件事実の整理】\n1. 請求原因事実：\n   ・\n   ・\n2. 抗弁事実：\n   ・\n   ・\n3. 再抗弁：\n   ・\n",
+        keywords: "【検索キーワード候補】\n・主語：\n・行為：\n・法的評価：\n・類似判例の判断枠組み：\n",
+        timeline: "【時効・期間制限チェック】\n・権利行使可能日：\n・消滅時効完成日：\n・除斥期間：\n・時効更新措置の有無：\n",
+        evidence: "【証拠一覧】\n[書証]\n・甲1号証：\n・甲2号証：\n\n[人証]\n・証人：\n・陳述書：\n",
+        risk: "【リスク・争点整理】\n・当方の弱点：\n・相手方の予想される反論：\n・認容される可能性（勝訴見込み）：○％程度\n・コスト倒れのリスク：\n",
+        negligence: "【過失割合検討】\n・別冊判例タイムズ図番：\n・基本過失割合：当方○：相手方○\n・修正要素（当方）：\n・修正要素（相手方）：\n",
+        compensation: "【慰謝料算定基準（赤本/青本）】\n・通院期間：○ヶ月（実通院○日）\n・基準額：○万円\n・増額事由：\n",
+        child_support: "【養育費・婚姻費用（算定表）】\n・義務者年収：○万円（給与・自営）\n・権利者年収：○万円（給与・自営）\n・子の年齢：\n・算定表の枠：○万〜○万円\n",
+        sentencing: "【量刑相場・求刑予想】\n・法定刑：\n・類似事案の量刑：\n・執行猶予の見込み：\n",
+        notice: "【対応方針】内容証明郵便の送付\n・送付期限：\n・通知書の主旨：契約解除・支払催告\n・回答期限の設定：本書面到達後○日以内\n・発送後の予定：回答がなければ訴訟準備\n",
+        negotiation: "【対応方針】交渉・示談提案\n・提示条件：\n・譲歩可能なライン（ボトムライン）：\n・解決金の目安：\n・合意書案の作成要否：\n",
+        notary: "【対応方針】公正証書の作成\n・目的：執行力の付与\n・公証役場：\n・作成予定日：\n・必要書類：印鑑証明書・戸籍謄本など\n",
+        mediation: "【対応方針】調停・ADR申立て\n・申立先：○簡易裁判所・弁護士会ADR\n・申立ての趣旨：\n・想定される期間：\n",
+        litigation: "【対応方針】訴訟提起\n・管轄裁判所：\n・訴額：\n・印紙代予納郵券：\n・仮差押えの必要性：\n",
+        dunning: "【対応方針】支払督促申立て\n・管轄：簡易裁判所書記官\n・メリット：安価・迅速\n・異議申立のリスク：\n",
+        provisional: "【対応方針】保全処分（仮差押・仮処分）\n・被保全権利：\n・保全の必要性：\n・担保金の用意：\n",
+        settlement: "【対応方針】即決和解（起訴前の和解）\n・管轄：簡易裁判所\n・合意内容の概要：\n・申立予定日：\n",
+        complaint: "【対応方針】刑事告訴・告発\n・提出先：○警察署・検察庁\n・罪名：\n・証拠の状況：\n・受理の見込み：\n",
+        decline: "【対応方針】受任見送り・継続相談\n・理由：勝訴見込み薄・費用対効果・利益相反\n・依頼者へのアドバイス：\n・法テラスの案内：\n"
+    };
+
+    function insertTemplate(targetId, templateKey) {
+        if (!templateKey || !TEMPLATES[templateKey]) return;
+        const textarea = document.getElementById(targetId);
+        const templateText = TEMPLATES[templateKey];
+        const startPos = textarea.selectionStart;
+        const endPos = textarea.selectionEnd;
+        const currentValue = textarea.value;
+        const newValue = currentValue.substring(0, startPos) + templateText + currentValue.substring(endPos, currentValue.length);
+        textarea.value = newValue;
+        textarea.selectionStart = startPos + templateText.length;
+        textarea.selectionEnd = startPos + templateText.length;
+        textarea.focus();
     }
 
-    // --- Theme Logic ---
+    // Modal Logic
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+        if(id === 'settingsModal') {
+            const dbVal = document.getElementById('conflictDatabase').value;
+            localStorage.setItem('conflict_db', dbVal);
+            checkConflict();
+        }
+    }
+
+    // Theme Logic
     function setTheme(mode) {
         const body = document.body;
         const lightBtn = document.getElementById('themeLight');
         const darkBtn = document.getElementById('themeDark');
-
         if (mode === 'dark') {
             body.classList.add('dark-mode');
             darkBtn.classList.add('active');
@@ -687,47 +879,104 @@
         }
     }
 
-    // --- Conflict Check Color Logic ---
+    // Conflict Check Color
     function updateConflictColor(select) {
-        select.className = '';
         if (select.value === 'OK') select.classList.add('status-ok');
-        if (select.value === '要注意') select.classList.add('status-warn');
+        else if (select.value === '要注意') select.classList.add('status-warn');
+        else select.className = '';
     }
 
-    // --- ToDo Logic ---
-    const todoListElement = document.getElementById('todoList');
+    // Conflict Check Logic
+    function checkConflict() {
+        const inputName = document.getElementById('opponentName').value.trim();
+        const alertBox = document.getElementById('conflictAlert');
+        const inputGroup = document.getElementById('opponentGroup');
+        let dbText = document.getElementById('conflictDatabase').value;
+        if (!dbText) {
+            dbText = localStorage.getItem('conflict_db') || "";
+            document.getElementById('conflictDatabase').value = dbText;
+        }
+        if (!inputName) {
+            alertBox.style.display = 'none';
+            inputGroup.classList.remove('conflict-detected');
+            return;
+        }
+        const blackList = dbText.split(/[\n,]+/).map(s => s.trim()).filter(s => s);
+        const isConflict = blackList.some(blockedName => inputName.includes(blockedName) || blockedName.includes(inputName));
+        if (isConflict) {
+            alertBox.style.display = 'block';
+            inputGroup.classList.add('conflict-detected');
+        } else {
+            alertBox.style.display = 'none';
+            inputGroup.classList.remove('conflict-detected');
+        }
+    }
 
+    // Google Calendar Search
+    function openCalendarSearch() {
+        const name = document.getElementById('opponentName').value.trim();
+        if(!name) { alert("検索する相手方名を入力してください"); return; }
+        const url = `https://calendar.google.com/calendar/r/search?q=${encodeURIComponent(name)}`;
+        window.open(url, '_blank');
+    }
+
+    // ToDo Logic
+    const todoListElement = document.getElementById('todoList');
+    function setQuickTodo(text) {
+        const input = document.getElementById('newTodoText');
+        input.value = text;
+        input.focus();
+    }
     function addTodoItem(text, date, priority) {
         const li = document.createElement('li');
         li.className = 'todo-item';
-        
         let priorityClass = 'priority-mid';
         if(priority === '高') priorityClass = 'priority-high';
         if(priority === '低') priorityClass = 'priority-low';
+        const dateDisplay = date ? date : '未定';
+        
+        const caseName = document.getElementById('caseName').value || '';
+        const title = (caseName ? `【${caseName}】` : '') + text;
+        
+        let datesParam = "";
+        if(date) {
+            const d = new Date(date);
+            const y = d.getFullYear();
+            const m = ('0' + (d.getMonth() + 1)).slice(-2);
+            const day = ('0' + d.getDate()).slice(-2);
+            const start = y + m + day;
+            const nextD = new Date(d);
+            nextD.setDate(nextD.getDate() + 1);
+            const ny = nextD.getFullYear();
+            const nm = ('0' + (nextD.getMonth() + 1)).slice(-2);
+            const nd = ('0' + nextD.getDate()).slice(-2);
+            const end = ny + nm + nd;
+            datesParam = `&dates=${start}/${end}`;
+        }
+        const details = `優先度: ${priority}`;
+        const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&details=${encodeURIComponent(details)}${datesParam}`;
 
         li.innerHTML = `
             <input type="checkbox">
-            <span class="${priorityClass}">${priority}</span>
+            <span class="${priorityClass} todo-priority">${priority}</span>
             <div style="flex:1">
-                <div>${text}</div>
-                <div style="font-size:0.8rem; color:var(--text-color); opacity:0.7;">期限: ${date || '未定'}</div>
+                <div class="todo-text">${text}</div>
+                <div class="todo-date" style="font-size:0.8rem; color:var(--text-color); opacity:0.7;">期限: ${dateDisplay}</div>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="this.parentElement.remove()" style="padding:2px 6px;">×</button>
+            <a href="${url}" target="_blank" class="btn-calendar" title="Googleカレンダーに登録">📅</a>
+            <button class="btn btn-outline btn-sm" onclick="removeTodo(this)" style="padding:2px 6px;">×</button>
         `;
         todoListElement.appendChild(li);
     }
-
+    function removeTodo(btn) { btn.parentElement.remove(); }
     function addTodo() {
         const text = document.getElementById('newTodoText').value;
         const date = document.getElementById('newTodoDate').value;
         const priority = document.getElementById('newTodoPriority').value;
-
         if(!text) return;
-
         addTodoItem(text, date, priority);
         document.getElementById('newTodoText').value = '';
     }
-
     function insertTemplateTodo() {
         const templates = [
             { text: '契約書・関連規約の有無確認', priority: '高' },
@@ -737,18 +986,43 @@
             { text: '相手方資産調査（登記等）', priority: '中' },
             { text: '証拠資料の収集・保全', priority: '高' }
         ];
-
-        // Set deadline to 1 week later by default for templates
         const today = new Date();
         today.setDate(today.getDate() + 7);
         const dateStr = today.toISOString().split('T')[0];
-
-        templates.forEach(item => {
-            addTodoItem(item.text, dateStr, item.priority);
-        });
+        templates.forEach(item => { addTodoItem(item.text, dateStr, item.priority); });
     }
 
-    // --- Demo & Clear Logic ---
+    // Speech Recognition
+    let recognition = null;
+    let currentTargetId = null;
+    function toggleSpeech(targetId, btnElement) {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            alert("お使いのブラウザは音声入力に対応していません。"); return;
+        }
+        if (recognition && currentTargetId === targetId) { recognition.stop(); return; }
+        if (recognition) { recognition.stop(); }
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.lang = 'ja-JP';
+        recognition.interimResults = false;
+        recognition.continuous = false; 
+        currentTargetId = targetId;
+        recognition.onstart = function() { btnElement.classList.add('recording-active'); };
+        recognition.onend = function() { resetMicUI(btnElement); recognition = null; currentTargetId = null; };
+        recognition.onresult = function(event) {
+            const result = event.results[0][0].transcript;
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+                if (targetEl.tagName === 'INPUT') { targetEl.value += (targetEl.value ? ' ' : '') + result; }
+                else { if (targetEl.value && !targetEl.value.endsWith('\n')) { targetEl.value += '\n'; } targetEl.value += result; }
+            }
+        };
+        recognition.onerror = function(event) { console.error("Speech error", event.error); resetMicUI(btnElement); };
+        recognition.start();
+    }
+    function resetMicUI(btn) { if(btn) btn.classList.remove('recording-active'); }
+
+    // Demo & Clear
     function fillDemoData() {
         document.getElementById('caseName').value = '鈴木一郎 貸金返還請求事件';
         document.getElementById('clientName').value = '鈴木 一郎';
@@ -757,67 +1031,35 @@
         document.getElementById('status').value = '相談中';
         document.getElementById('conflictCheck').value = 'OK';
         updateConflictColor(document.getElementById('conflictCheck'));
-        
-        // 日付を今日に
         document.getElementById('deadline').value = new Date().toISOString().split('T')[0];
-
-        document.getElementById('facts').value = 
-`・2023年5月1日、知人である相手方に現金300万円を貸し付けた。
-・借用書あり（直筆署名・押印あり）。
-・返済期限は2024年5月末日だったが、未だ返済がない。
-・電話には出るが「来月払う」の一点張り。
-・相手方は自営業（飲食店）を営んでおり、店は営業している様子。`;
-
-        document.getElementById('issues').value = 
-`・消滅時効の確認（商事か民事か、最終取引日はいつか）
-・相手方の資力（店の経営状態、不動産所有の有無）
-・借用書の証拠価値（真正な成立が認められるか）
-・仮差押えの必要性検討`;
-
-        document.getElementById('strategy').value = 
-`【方針】
-まずは内容証明郵便にて催告。
-反応がなければ、訴訟提起および預金等の仮差押えを検討。
-
-【リスク】
-・相手方が無資力である可能性（回収不能リスク）
-・破産申立ての可能性`;
-
-        document.getElementById('feeContentCert').value = '3.3';
-        document.getElementById('feeNeg').value = '11';
-        document.getElementById('feeLitigation').value = '33';
-        document.getElementById('feeRemarks').value = '日当3.3万円/回、実費別';
-
-        // 設定情報のデモ
+        document.getElementById('facts').value = `・2023年5月1日、知人である相手方に現金300万円を貸し付けた。\n・借用書あり（直筆署名・押印あり）。\n・返済期限は2024年5月末日だったが、未だ返済がない。\n・電話には出るが「来月払う」の一点張り。`;
+        document.getElementById('issues').value = `・消滅時効の確認\n・相手方の資力（店の経営状態、不動産所有の有無）\n・借用書の証拠価値`;
+        document.getElementById('strategy').value = `【方針】\nまずは内容証明郵便にて催告。\n反応がなければ、訴訟提起および預金等の仮差押えを検討。`;
+        document.getElementById('feeTimeCharge').value = '';
+        document.getElementById('feeStart').value = '請求額の8.8%';
+        document.getElementById('feeSuccess').value = '経済的利益の17.6%';
+        document.getElementById('feeSpot').value = '';
+        document.getElementById('feeRemarks').value = '日当3.3万円/回、実費別、着手金最低額11万円';
         document.getElementById('lawyerOffice').value = '丸の内総合法律事務所';
-        document.getElementById('lawyerName').value = '弁護士 山田 太郎';
-
-        // ToDoクリアしてから追加
+        document.getElementById('lawyerName').value = '弁護士 法務 太郎';
+        document.getElementById('conflictDatabase').value = "佐藤次郎\n株式会社悪徳商事\n田中三郎";
+        localStorage.setItem('conflict_db', document.getElementById('conflictDatabase').value);
         todoListElement.innerHTML = '';
         insertTemplateTodo();
     }
-
     function clearData() {
         if(!confirm('入力内容をすべて消去しますか？')) return;
-        
-        const inputs = document.querySelectorAll('input, textarea, select');
-        inputs.forEach(input => {
-            if(input.type !== 'button' && input.type !== 'submit') {
-                input.value = '';
-            }
-        });
-        // Selectの初期値戻しなど微調整
+        const inputs = document.querySelectorAll('input:not([type="button"]), textarea:not(#conflictDatabase)');
+        inputs.forEach(input => { input.value = ''; });
         document.getElementById('status').value = '相談中';
         document.getElementById('conflictCheck').value = '未確認';
         updateConflictColor(document.getElementById('conflictCheck'));
         document.getElementById('newTodoPriority').value = '中';
-        
         todoListElement.innerHTML = '';
     }
 
-    // --- Output Logic ---
+    // Output
     function generateOutput(type) {
-        // Gather Data
         const d = {
             caseName: document.getElementById('caseName').value,
             client: document.getElementById('clientName').value,
@@ -830,92 +1072,58 @@
             issues: document.getElementById('issues').value,
             strategy: document.getElementById('strategy').value,
             fees: {
-                content: document.getElementById('feeContentCert').value,
-                neg: document.getElementById('feeNeg').value,
-                med: document.getElementById('feeMediation').value,
-                lit: document.getElementById('feeLitigation').value,
+                time: document.getElementById('feeTimeCharge').value,
+                start: document.getElementById('feeStart').value,
+                success: document.getElementById('feeSuccess').value,
+                spot: document.getElementById('feeSpot').value,
                 rem: document.getElementById('feeRemarks').value
             },
-            lawyer: {
-                office: document.getElementById('lawyerOffice').value,
-                name: document.getElementById('lawyerName').value
-            },
+            lawyer: { office: document.getElementById('lawyerOffice').value, name: document.getElementById('lawyerName').value },
             todos: []
         };
-
-        // Gather ToDos
         document.querySelectorAll('.todo-item').forEach(item => {
-            const text = item.querySelector('div > div').innerText;
-            const meta = item.querySelector('div > div:nth-child(2)').innerText;
+            const text = item.querySelector('.todo-text').innerText;
+            const meta = item.querySelector('.todo-date').innerText;
             const checked = item.querySelector('input[type="checkbox"]').checked ? '■' : '□';
             d.todos.push(`${checked} ${text} (${meta})`);
         });
-
-        let output = "";
         let lawyerSign = "";
-        if(d.lawyer.office || d.lawyer.name) {
-            lawyerSign = `\n--------------------------------------------------\n${d.lawyer.office}\n${d.lawyer.name}\n--------------------------------------------------`;
-        }
+        if(d.lawyer.office || d.lawyer.name) { lawyerSign = `\n--------------------------------------------------\n${d.lawyer.office}\n${d.lawyer.name}\n--------------------------------------------------`; }
+        let output = "";
+        let feeOutput = "";
+        if(d.fees.time) feeOutput += `・タイムチャージ：${d.fees.time}万円/h\n`;
+        if(d.fees.start) feeOutput += `・着手金：${d.fees.start}\n`;
+        if(d.fees.success) feeOutput += `・報酬金：${d.fees.success}\n`;
+        if(d.fees.spot) feeOutput += `・手数料（スポット）：${d.fees.spot}万円\n`;
+        if(d.fees.rem) feeOutput += `・備考：${d.fees.rem}\n`;
+        if(!feeOutput) feeOutput = "・（未入力）\n";
 
         if (type === 'internal') {
-            output = `【案件管理シート：${d.caseName}】\n`;
-            output += `■基本情報\n`;
-            output += `・依頼者：${d.client}\n・相手方：${d.opponent}\n・分野：${d.field}\n・ステータス：${d.status}\n`;
-            output += `・期限：${d.deadline}\n・利益相反：${d.conflict}\n\n`;
-            output += `■事実関係\n${d.facts}\n\n`;
-            output += `■法的論点・メモ\n${d.issues}\n\n`;
-            output += `■方針・リスク\n${d.strategy}\n\n`;
-            output += `■費用感\n`;
-            if(d.fees.content) output += `・内容証明：${d.fees.content}万円\n`;
-            if(d.fees.neg) output += `・交渉：${d.fees.neg}万円\n`;
-            if(d.fees.med) output += `・調停：${d.fees.med}万円\n`;
-            if(d.fees.lit) output += `・訴訟：${d.fees.lit}万円\n`;
-            output += `・備考：${d.fees.rem}\n\n`;
-            output += `■Next Action\n${d.todos.join('\n')}`;
-        } 
-        else if (type === 'client') {
-            output = `【相談メモ】${d.caseName}\n`;
-            output += `${d.client} 様\n\n`;
-            output += `本日はご相談ありがとうございました。\nご相談内容と今後の方向性についてまとめましたので、ご確認ください。\n\n`;
-            output += `■ご相談の概要\n${d.facts}\n\n`;
-            output += `■今後の対応方針\n${d.strategy}\n\n`;
-            output += `■費用目安（税別・実費別）\n`;
-            if(d.fees.content) output += `・内容証明作成：${d.fees.content}万円程度\n`;
-            if(d.fees.neg) output += `・交渉着手金：${d.fees.neg}万円程度\n`;
-            if(d.fees.med) output += `・調停着手金：${d.fees.med}万円程度\n`;
-            if(d.fees.lit) output += `・訴訟着手金：${d.fees.lit}万円程度\n`;
-            output += `※具体的なお見積りは別途作成いたします。\n\n`;
-            output += `■お願いしたい事項\n${d.todos.join('\n')}`;
-            output += lawyerSign;
+            output = `【案件管理シート：${d.caseName}】\n・依頼者：${d.client}\n・相手方：${d.opponent}\n・分野：${d.field}\n・ステータス：${d.status}\n・期限：${d.deadline}\n・利益相反：${d.conflict}\n\n■事実関係\n${d.facts}\n\n■法的論点・メモ\n${d.issues}\n\n■方針・リスク\n${d.strategy}\n\n■費用感（税込）\n${feeOutput}\n■Next Action\n${d.todos.join('\n')}`;
+        } else if (type === 'client') {
+            output = `【相談メモ】${d.caseName}\n${d.client} 様\n\n本日はご相談ありがとうございました。\nご相談内容と今後の方向性についてまとめましたので、ご確認ください。\n\n■ご相談の概要\n${d.facts}\n\n■今後の対応方針\n${d.strategy}\n\n■費用目安（税別・実費別）\n${feeOutput}※具体的なお見積りは別途作成いたします。\n\n■お願いしたい事項\n${d.todos.join('\n')}${lawyerSign}`;
+        } else if (type === 'estimate') {
+            output = `【御見積参考】${d.caseName}\n\n■弁護士費用目安\n----------------------------\n`;
+            if(d.fees.time) output += `【タイムチャージ】\n単価：金 ${d.fees.time}万円（税込）/1時間\n\n`;
+            if(d.fees.start || d.fees.success) { output += `【着手金・報酬金方式】\n`; if(d.fees.start) output += `着手金：${d.fees.start}\n`; if(d.fees.success) output += `報酬金：${d.fees.success}\n`; output += `\n`; }
+            if(d.fees.spot) output += `【手数料（定額）】\n金 ${d.fees.spot}万円（税込）\n\n`;
+            output += `----------------------------\n■その他備考\n${d.fees.rem || '・日当、実費（印紙代、郵券代）は別途発生いたします。'}\n・成功報酬については別途協議となります。${lawyerSign}`;
         }
-        else if (type === 'estimate') {
-            output = `【御見積参考】${d.caseName}\n\n`;
-            output += `■弁護士費用（着手金目安）\n`;
-            output += `----------------------------\n`;
-            if(d.fees.content) output += `内容証明郵便作成：\n金 ${d.fees.content}万円（税込）\n\n`;
-            if(d.fees.neg) output += `示談交渉対応：\n金 ${d.fees.neg}万円（税込）\n\n`;
-            if(d.fees.med) output += `調停対応：\n金 ${d.fees.med}万円（税込）\n\n`;
-            if(d.fees.lit) output += `訴訟対応：\n金 ${d.fees.lit}万円（税込）\n\n`;
-            output += `----------------------------\n`;
-            output += `■その他備考\n${d.fees.rem || '・日当、実費（印紙代、郵券代）は別途発生いたします。'}\n`;
-            output += `・成功報酬については別途協議となります。`;
-            output += lawyerSign;
-        }
-
-        document.getElementById('modalTitle').innerText = 
-            type === 'internal' ? '事務所内共有用' : 
-            type === 'client' ? '依頼者説明用' : '見積たたき台';
-        
+        document.getElementById('modalTitle').innerText = type === 'internal' ? '事務所内共有用' : type === 'client' ? '依頼者説明用' : '見積たたき台';
         document.getElementById('outputText').value = output;
         document.getElementById('outputModal').style.display = 'flex';
     }
-
     function copyToClipboard() {
         const copyText = document.getElementById("outputText");
         copyText.select();
         document.execCommand("copy");
         alert("コピーしました");
     }
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedDb = localStorage.getItem('conflict_db');
+        if(savedDb) { document.getElementById('conflictDatabase').value = savedDb; }
+    });
 </script>
 
 </body>
