@@ -6,8 +6,8 @@
     <title>弁護士 思考コンパス（テスト版）</title>
     <style>
         :root {
-            --primary-color: #0f4c81; /* 信頼感のあるネイビー */
-            --accent-color: #d9534f; /* 注意喚起の赤 */
+            --primary-color: #0f4c81;
+            --accent-color: #d9534f;
             --bg-color: #f4f7f9;
             --card-bg: #ffffff;
             --text-color: #333;
@@ -16,9 +16,9 @@
             --border-radius: 8px;
             --shadow: 0 2px 4px rgba(0,0,0,0.05);
             --modal-overlay: rgba(0,0,0,0.5);
+            --gold: #c9a961;
         }
 
-        /* ダークモード用変数 */
         body.dark-mode {
             --primary-color: #64b5f6;
             --accent-color: #ff8a80;
@@ -28,12 +28,10 @@
             --input-bg: #2c2c2c;
             --input-border: #555;
             --shadow: 0 2px 8px rgba(0,0,0,0.5);
-            --modal-overlay: rgba(255,255,255,0.1);
+            --modal-overlay: rgba(0,0,0,0.7);
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
@@ -45,7 +43,6 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Utility */
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -67,17 +64,23 @@
             color: var(--primary-color);
             border-bottom: 2px solid #eee;
             padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        body.dark-mode h2 {
-            border-bottom-color: #444;
-        }
+        body.dark-mode h2 { border-bottom-color: #444; }
         h3 {
             font-size: 0.95rem;
             margin: 15px 0 5px 0;
             color: #555;
         }
-        body.dark-mode h3 {
-            color: #aaa;
+        body.dark-mode h3 { color: #aaa; }
+        h4 {
+            font-size: 1rem;
+            color: var(--primary-color);
+            margin: 18px 0 8px 0;
+            padding-left: 10px;
+            border-left: 4px solid var(--primary-color);
         }
         input[type="text"], input[type="date"], input[type="number"], select, textarea {
             width: 100%;
@@ -102,16 +105,12 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
-        .template-select:hover {
-            background-color: #eef1f5;
-        }
+        .template-select:hover { background-color: #eef1f5; }
         body.dark-mode .template-select {
             background-color: #2c2c2c;
             color: #e0e0e0;
         }
-        body.dark-mode .template-select:hover {
-            background-color: #383838;
-        }
+        body.dark-mode .template-select:hover { background-color: #383838; }
 
         textarea {
             resize: vertical;
@@ -125,11 +124,8 @@
             color: #666;
             margin-bottom: 3px;
         }
-        body.dark-mode label {
-            color: #aaa;
-        }
+        body.dark-mode label { color: #aaa; }
 
-        /* Header Area */
         header {
             display: flex;
             justify-content: space-between;
@@ -161,12 +157,8 @@
             width: 40px;
             height: 40px;
         }
-        .icon-btn:hover {
-            background-color: rgba(0,0,0,0.05);
-        }
-        body.dark-mode .icon-btn:hover {
-            background-color: rgba(255,255,255,0.1);
-        }
+        .icon-btn:hover { background-color: rgba(0,0,0,0.05); }
+        body.dark-mode .icon-btn:hover { background-color: rgba(255,255,255,0.1); }
         .btn-text {
             font-size: 0.9rem;
             font-weight: bold;
@@ -180,35 +172,46 @@
             border: none;
         }
         
-        /* Section 1: Case Header */
-        .case-header-grid {
-            display: grid;
-            gap: 15px;
+        /* コピーアイコンボタン */
+        .copy-icon-btn {
+            background: none;
+            border: 1px solid var(--input-border);
+            color: var(--primary-color);
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
         }
-        .row-1, .row-2 {
-            display: grid;
-            gap: 15px;
+        .copy-icon-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
         }
+        .copy-icon-btn.copied {
+            background-color: #27ae60;
+            color: white;
+            border-color: #27ae60;
+        }
+        
+        .case-header-grid { display: grid; gap: 15px; }
+        .row-1, .row-2 { display: grid; gap: 15px; }
         .row-1 { grid-template-columns: 2fr 1fr 1fr 1fr; }
         .row-2 { grid-template-columns: 1fr 1fr 1fr; }
 
-        .conflict-check-group select {
-            font-weight: bold;
-        }
+        .conflict-check-group select { font-weight: bold; }
         .status-ok { color: #27ae60; }
         .status-warn { color: var(--accent-color); background-color: #fff0f0; }
         body.dark-mode .status-warn { background-color: #330000; }
 
-        /* Section 2: 3 Columns */
         .main-columns {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 20px;
         }
-        .col {
-            display: flex;
-            flex-direction: column;
-        }
+        .col { display: flex; flex-direction: column; }
         .fee-section {
             background-color: #fcfcfc;
             border-top: 2px dashed #ddd;
@@ -238,11 +241,8 @@
             font-size: 0.8rem;
             color: #666;
         }
-        body.dark-mode .fee-unit {
-            color: #aaa;
-        }
+        body.dark-mode .fee-unit { color: #aaa; }
 
-        /* Section 3: ToDo */
         .todo-input-area {
             display: flex;
             gap: 10px;
@@ -288,7 +288,6 @@
         body.dark-mode .btn-outline:hover { background-color: rgba(100, 181, 246, 0.1); }
         .btn-sm { padding: 6px 12px; font-size: 0.85rem; }
 
-        /* Section 4: Output Buttons */
         .output-area {
             display: flex;
             gap: 20px;
@@ -311,7 +310,6 @@
         }
         body.dark-mode .output-desc { color: #aaa; }
 
-        /* Utility Footer (Demo/Clear) */
         .utility-footer {
             text-align: center;
             margin-bottom: 40px;
@@ -329,7 +327,6 @@
         }
         .btn-text-sub:hover { color: var(--primary-color); }
 
-        /* Copyright Footer */
         .main-footer {
             text-align: center;
             padding: 20px;
@@ -339,7 +336,6 @@
         }
         body.dark-mode .main-footer { border-top-color: #333; }
 
-        /* Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -362,9 +358,7 @@
             box-shadow: var(--shadow);
             border: 1px solid var(--input-border);
         }
-        .modal-sm {
-            max-width: 500px;
-        }
+        .modal-sm { max-width: 500px; }
         .modal-header {
             display: flex;
             justify-content: space-between;
@@ -383,10 +377,27 @@
             font-family: monospace;
         }
         
-        /* Settings Modal Specific */
-        .settings-row {
-            margin-bottom: 15px;
+        .close-icon-btn {
+            background: none;
+            border: 1px solid var(--input-border);
+            color: var(--text-color);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
         }
+        .close-icon-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        
+        .settings-row { margin-bottom: 15px; }
         .theme-options {
             display: flex;
             gap: 15px;
@@ -403,15 +414,186 @@
             border-color: var(--primary-color);
         }
         
-        /* Usage Modal Specific */
-        .usage-list {
-            padding-left: 20px;
+        .usage-list { padding-left: 20px; }
+        .usage-list li { margin-bottom: 10px; }
+        .usage-tip {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--gold);
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            border-radius: 4px;
         }
-        .usage-list li {
-            margin-bottom: 8px;
+        body.dark-mode .usage-tip {
+            background-color: #2c2c2c;
+        }
+        
+        /* ============================
+           AI分析アニメーション
+           ============================ */
+        .ai-analysis-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(15, 25, 50, 0.92);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .ai-analysis-overlay.active { display: flex; }
+        
+        body.dark-mode .ai-analysis-overlay {
+            background: rgba(0, 0, 0, 0.93);
+        }
+        
+        .court-stage {
+            position: relative;
+            width: 280px;
+            height: 200px;
+            margin-bottom: 40px;
+        }
+        
+        /* 天秤のアニメーション */
+        .scale-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 6rem;
+            animation: scaleSwing 2.2s ease-in-out infinite;
+            transform-origin: center top;
+            filter: drop-shadow(0 0 20px rgba(201, 169, 97, 0.6));
+        }
+        @keyframes scaleSwing {
+            0%, 100% { transform: translate(-50%, -50%) rotate(-8deg); }
+            50% { transform: translate(-50%, -50%) rotate(8deg); }
+        }
+        
+        /* 光輪エフェクト */
+        .halo {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 200px; height: 200px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 2px solid rgba(201, 169, 97, 0.4);
+            animation: haloPulse 2s ease-out infinite;
+        }
+        .halo:nth-child(2) { animation-delay: 0.6s; }
+        .halo:nth-child(3) { animation-delay: 1.2s; }
+        @keyframes haloPulse {
+            0% {
+                width: 100px; height: 100px;
+                opacity: 0.8;
+            }
+            100% {
+                width: 280px; height: 280px;
+                opacity: 0;
+            }
+        }
+        
+        /* ガベル（法槌）のエフェクト */
+        .gavel-effect {
+            position: absolute;
+            top: 20%;
+            right: 10%;
+            font-size: 2.5rem;
+            animation: gavelStrike 1.8s ease-in-out infinite;
+            transform-origin: bottom right;
+        }
+        @keyframes gavelStrike {
+            0%, 80%, 100% { transform: rotate(0deg); opacity: 0.7; }
+            40% { transform: rotate(-30deg); opacity: 1; }
+            50% { transform: rotate(10deg); opacity: 1; }
+        }
+        
+        /* 書類が舞うアニメーション */
+        .floating-papers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .paper {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.5;
+            animation: floatPaper 4s ease-in-out infinite;
+        }
+        .paper:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .paper:nth-child(2) { left: 85%; top: 30%; animation-delay: 1s; }
+        .paper:nth-child(3) { left: 15%; top: 70%; animation-delay: 2s; }
+        .paper:nth-child(4) { left: 80%; top: 75%; animation-delay: 3s; }
+        @keyframes floatPaper {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(10deg); opacity: 0.6; }
+        }
+        
+        .ai-status-text {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            text-align: center;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .ai-sub-text {
+            color: var(--gold);
+            font-size: 0.95rem;
+            text-align: center;
+            min-height: 24px;
+            transition: opacity 0.3s;
+        }
+        
+        /* ローディングドット */
+        .loading-dots {
+            display: inline-block;
+            margin-left: 5px;
+        }
+        .loading-dots span {
+            display: inline-block;
+            animation: dotBounce 1.4s infinite ease-in-out both;
+            color: var(--gold);
+        }
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes dotBounce {
+            0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+            40% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        /* プログレスバー */
+        .progress-bar-wrap {
+            width: 280px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 25px;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), #ffd700, var(--gold));
+            background-size: 200% 100%;
+            width: 0%;
+            animation: progressGrow 30s ease-out forwards, shimmer 2s linear infinite;
+        }
+        @keyframes progressGrow {
+            0% { width: 5%; }
+            20% { width: 40%; }
+            50% { width: 70%; }
+            80% { width: 85%; }
+            100% { width: 95%; }
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
-        /* Responsive */
         @media (max-width: 900px) {
             .row-1 { grid-template-columns: 1fr 1fr; }
             .row-2 { grid-template-columns: 1fr; }
@@ -424,7 +606,6 @@
 <body>
 
 <div class="container">
-    <!-- Header -->
     <header>
         <div class="header-left">
             <h1>弁護士 思考コンパス<span style="font-size:0.6em; margin-left:10px; color:#666;">（テスト版）</span></h1>
@@ -433,13 +614,12 @@
             <button class="btn-text" onclick="openModal('usageModal')">
                 <span>📖</span> 使い方
             </button>
-            <button class="icon-btn" onclick="openModal('settingsModal')" title="設定">
+            <button class="icon-btn" onclick="openSettingsModal()" title="設定">
                 ⚙️
             </button>
         </div>
     </header>
 
-    <!-- 1. Case Header Block -->
     <section class="card" id="case-header">
         <div class="case-header-grid">
             <div class="row-1">
@@ -497,11 +677,12 @@
         </div>
     </section>
 
-    <!-- 2. Main 3 Columns -->
     <div class="main-columns">
-        <!-- Left Column -->
         <div class="col card">
-            <h2>相談・事実関係</h2>
+            <h2>
+                <span>相談・事実関係</span>
+                <button class="copy-icon-btn" onclick="copyTextarea('facts', this)">📋 コピー</button>
+            </h2>
             <select onchange="insertTemplate('facts', this.value); this.value='';" class="template-select">
                 <option value="" disabled selected>▼ よくある相談雛形を挿入</option>
                 <option value="debt">1. 債権回収（貸金・売掛金）</option>
@@ -520,9 +701,11 @@
             </div>
         </div>
 
-        <!-- Center Column -->
         <div class="col card">
-            <h2>論点・判例メモ</h2>
+            <h2>
+                <span>論点・判例メモ</span>
+                <button class="copy-icon-btn" onclick="copyTextarea('issues', this)">📋 コピー</button>
+            </h2>
             <select onchange="insertTemplate('issues', this.value); this.value='';" class="template-select">
                 <option value="" disabled selected>▼ 調査・検討フレームを挿入</option>
                 <option value="requirements">1. 要件事実の整理</option>
@@ -534,9 +717,11 @@
             <textarea id="issues" placeholder="（AIの回答がここに自動反映されます）&#10;&#10;・法的構成&#10;・争点となりそうな事実&#10;・リサーチが必要な判例"></textarea>
         </div>
 
-        <!-- Right Column -->
         <div class="col card">
-            <h2>方針・リスク整理</h2>
+            <h2>
+                <span>方針・リスク整理</span>
+                <button class="copy-icon-btn" onclick="copyTextarea('strategy', this)">📋 コピー</button>
+            </h2>
             <select onchange="insertTemplate('strategy', this.value); this.value='';" class="template-select">
                 <option value="" disabled selected>▼ 対応・アクション案を挿入</option>
                 <option value="notice">1. 内容証明郵便の送付</option>
@@ -547,7 +732,6 @@
             </select>
             <textarea id="strategy" style="min-height: 150px;" placeholder="・解決のゴール設定&#10;・交渉/訴訟の選択&#10;・敗訴リスク"></textarea>
 
-            <!-- Fee Section -->
             <div class="fee-section">
                 <h3>費用目安レンジ（税込）</h3>
                 <div class="fee-row">
@@ -576,7 +760,6 @@
         </div>
     </div>
 
-    <!-- 3. ToDo Section -->
     <section class="card" id="todo-section">
         <h2>ToDo／期限管理</h2>
         <div style="margin-bottom: 10px; text-align: right;">
@@ -603,12 +786,9 @@
             <button class="btn" onclick="addTodo()">追加</button>
         </div>
 
-        <ul id="todoList" class="todo-list">
-            <!-- JS populates this -->
-        </ul>
+        <ul id="todoList" class="todo-list"></ul>
     </section>
 
-    <!-- 4. Output Buttons -->
     <footer class="output-area">
         <div class="output-btn-group">
             <button class="btn" style="background-color: #555;" onclick="generateOutput('internal')">① 事務所内共有用 出力</button>
@@ -624,7 +804,6 @@
         </div>
     </footer>
 
-    <!-- Utility Links (Demo/Clear) -->
     <div class="utility-footer">
         <button class="btn-text-sub" onclick="fillDemoData()">デモデータを入力</button>
         <button class="btn-text-sub" onclick="clearData()">入力をクリア</button>
@@ -632,31 +811,52 @@
 
 </div>
 
-<!-- Footer -->
 <footer class="main-footer">
     テスト版（ベータ版） © 2026 SPC
 </footer>
 
-<!-- Modals -->
+<!-- ===== AI分析アニメーション オーバーレイ ===== -->
+<div class="ai-analysis-overlay" id="aiOverlay">
+    <div class="court-stage">
+        <div class="floating-papers">
+            <span class="paper">📄</span>
+            <span class="paper">📜</span>
+            <span class="paper">📑</span>
+            <span class="paper">⚖️</span>
+        </div>
+        <div class="halo"></div>
+        <div class="halo"></div>
+        <div class="halo"></div>
+        <div class="scale-container">⚖️</div>
+        <div class="gavel-effect">🔨</div>
+    </div>
+    <div class="ai-status-text">
+        AIが法的論点を分析中<span class="loading-dots"><span>●</span><span>●</span><span>●</span></span>
+    </div>
+    <div class="ai-sub-text" id="aiSubText">事実関係を精査しています</div>
+    <div class="progress-bar-wrap">
+        <div class="progress-bar"></div>
+    </div>
+</div>
 
-<!-- Settings Modal -->
+<!-- 設定モーダル -->
 <div class="modal-overlay" id="settingsModal">
     <div class="modal modal-sm">
         <div class="modal-header">
-            <h3 style="margin: 0;">設定</h3>
-            <button class="btn btn-sm btn-outline" onclick="closeSettingsModal()">×</button>
+            <h3 style="margin: 0;">⚙️ 設定</h3>
+            <button class="close-icon-btn" onclick="closeSettingsModal()">×</button>
         </div>
         <div class="modal-body">
             <div class="settings-row">
                 <label>画面テーマ</label>
                 <div class="theme-options">
-                    <div class="theme-option active" id="themeLight" onclick="setTheme('light')">ライト</div>
-                    <div class="theme-option" id="themeDark" onclick="setTheme('dark')">ダーク</div>
+                    <div class="theme-option active" id="themeLight" onclick="setTheme('light')">☀️ ライト</div>
+                    <div class="theme-option" id="themeDark" onclick="setTheme('dark')">🌙 ダーク</div>
                 </div>
             </div>
             <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
             <div class="settings-row">
-                <label>弁護士基本情報（出力時に使用）</label>
+                <label>弁護士基本情報（出力時に署名として使用）</label>
                 <div style="margin-bottom:10px;">
                     <label>事務所名</label>
                     <input type="text" id="lawyerOffice" placeholder="例：東京中央法律事務所">
@@ -673,25 +873,50 @@
     </div>
 </div>
 
-<!-- Usage Modal -->
+<!-- 使い方モーダル -->
 <div class="modal-overlay" id="usageModal">
     <div class="modal modal-sm">
         <div class="modal-header">
-            <h3 style="margin: 0;">使い方・目的</h3>
-            <button class="btn btn-sm btn-outline" onclick="closeModal('usageModal')">×</button>
+            <h3 style="margin: 0;">📖 使い方ガイド</h3>
+            <button class="close-icon-btn" onclick="closeModal('usageModal')">×</button>
         </div>
         <div class="modal-body">
-            <h4>【目的】</h4>
-            <p>相談対応時の思考プロセス（事実整理→論点抽出→方針策定→費用提示）を1画面で完結させ、スムーズな業務遂行と、事務局への指示出し・依頼者への回答作成を効率化します。</p>
+            <h4>このアプリの目的</h4>
+            <p>法律相談対応時の思考プロセス（事実整理 → 論点抽出 → 方針策定 → 費用提示）を1画面で完結。事務局への指示出しや依頼者への回答作成をスピードアップします。</p>
             
-            <h4>【使い方】</h4>
+            <h4>基本の使い方</h4>
+            <ol class="usage-list">
+                <li><strong>① 案件ヘッダー入力</strong><br>案件名、依頼者、相手方、分野、利益相反などの基本情報を登録します。</li>
+                <li><strong>② 左カラムに事実関係を入力</strong><br>プルダウンから「よくある相談雛形」を選べば、ひな形が自動で挿入されます。</li>
+                <li><strong>③ AI自動分析</strong><br>紫色の「AIに論点を自動分析させる」ボタンを押すと、中央カラムに論点候補・相手方反論・判例検索キーワードが自動生成されます。</li>
+                <li><strong>④ 中央で論点・判例をブラッシュアップ</strong><br>AI回答をベースに、追記・修正を行います。</li>
+                <li><strong>⑤ 右カラムで方針・費用を整理</strong><br>対応方針とレンジ費用を入力。見積たたき台に直結します。</li>
+                <li><strong>⑥ ToDo管理</strong><br>必要タスクを登録。「雛形挿入」で初動タスクを一括登録できます。</li>
+                <li><strong>⑦ 出力ボタンで用途別に整形</strong><br>所内共有・依頼者説明・見積たたき の3種から選んで自動生成します。</li>
+            </ol>
+            
+            <div class="usage-tip">
+                💡 ヒント：各カラム右上の「📋 コピー」ボタンで、そのカラムのテキストだけを個別にコピーできます。メールやチャットに直接貼り付けるときに便利です。
+            </div>
+            
+            <h4>出力の使い分け</h4>
             <ul class="usage-list">
-                <li><strong>ヘッダー入力：</strong> 案件の基本情報と、利益相反・期限などのクリティカルな情報を入力します。</li>
-                <li><strong>AI自動分析：</strong> 左カラムに事実関係を入力し「AIに論点を自動分析させる」ボタンを押すと、中央カラムに論点候補が自動生成されます。</li>
-                <li><strong>定型文挿入：</strong> 各入力欄上のプルダウンから、よく使う雛形を選択して自動入力できます。</li>
-                <li><strong>ToDo作成：</strong> 必要なタスクを登録。「雛形挿入」で初動タスクを一括登録できます。</li>
-                <li><strong>出力：</strong> 用途（所内・依頼者・見積）に合わせてテキストを自動生成し、メールやチャットなどにペーストできます。</li>
+                <li><strong>① 事務所内共有用</strong><br>メモや論点を含めた全文。事務局・共同受任の弁護士への引き継ぎに。</li>
+                <li><strong>② 依頼者説明用</strong><br>法律用語を抑え、方針と費用を中心に整理。ご依頼者へのメール用に。</li>
+                <li><strong>③ 見積たたき用</strong><br>費用部分だけを抜き出した体裁。事務局への見積書作成指示に。</li>
             </ul>
+            
+            <h4>便利機能</h4>
+            <ul class="usage-list">
+                <li><strong>デモデータを入力</strong><br>フッターの「デモデータを入力」で、動作確認用のサンプルが入ります。</li>
+                <li><strong>入力をクリア</strong><br>すべての入力内容をリセットします（事務所名・弁護士名は保持）。</li>
+                <li><strong>ダークモード</strong><br>右上の⚙️から切り替え可能。夜間業務にも目に優しい配色です。</li>
+                <li><strong>事務所情報の登録</strong><br>⚙️設定から事務所名・弁護士名を登録すると、出力時に自動で署名されます。</li>
+            </ul>
+
+            <div class="usage-tip">
+                ⚠️ 注意：AIの分析は参考情報です。最終的な判断は必ず弁護士ご自身で行ってください。また、依頼者情報など機密事項の入力はテスト版のため控えめにお願いします。
+            </div>
         </div>
         <div style="margin-top: 15px; text-align: right;">
             <button class="btn" onclick="closeModal('usageModal')">閉じる</button>
@@ -699,24 +924,23 @@
     </div>
 </div>
 
-<!-- Output Modal -->
+<!-- 出力モーダル -->
 <div class="modal-overlay" id="outputModal">
     <div class="modal">
         <div class="modal-header">
             <h3 id="modalTitle" style="margin: 0;">出力結果</h3>
-            <button class="btn btn-sm btn-outline" onclick="closeModal('outputModal')">閉じる</button>
+            <button class="close-icon-btn" onclick="closeModal('outputModal')">×</button>
         </div>
         <div class="modal-body">
             <textarea id="outputText"></textarea>
         </div>
         <div style="margin-top: 10px; text-align: right;">
-            <button class="btn" onclick="copyToClipboard('outputText', this)">クリップボードにコピー</button>
+            <button class="btn" onclick="copyToClipboard('outputText', this)">📋 クリップボードにコピー</button>
         </div>
     </div>
 </div>
 
 <script>
-    // --- Templates Definitions ---
     const TEMPLATES = {
         debt: "【相談種別】債権回収\n【債権の種類】売掛金・貸金\n【契約書の有無】あり・なし\n【相手方の対応】音信不通・支払意思あり・資力不明\n【希望する解決】早期回収・分割払いでも可・強硬手段辞さず\n\n【詳細な事実経緯】\n",
         divorce: "【相談種別】離婚・男女問題\n【当事者属性】婚姻年数○年・子○人（○歳）\n【主な争点】親権・養育費・財産分与・慰謝料・年金分割\n【相手方の態度】離婚拒否・条件次第・モラハラ気味\n【別居の有無】別居中（期間○ヶ月）\n\n【詳細な相談内容】\n",
@@ -749,22 +973,34 @@
         textarea.focus();
     }
 
-    // --- Settings & LocalStorage Logic ---
+    // ========= 起動時の初期化（テーマ復元含む） =========
     window.addEventListener('DOMContentLoaded', () => {
+        // 事務所情報の復元
         const storedOffice = localStorage.getItem('lawyerOffice');
         if(storedOffice) document.getElementById('lawyerOffice').value = storedOffice;
         
         const storedName = localStorage.getItem('lawyerName');
         if(storedName) document.getElementById('lawyerName').value = storedName;
+        
+        // テーマ設定の復元
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
     });
 
+    function openSettingsModal() {
+        // 設定モーダルを開いたときに現在のテーマ状態を正しく反映
+        const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+        updateThemeButtonUI(currentTheme);
+        openModal('settingsModal');
+    }
+
     function closeSettingsModal() {
+        // 事務所情報をlocalStorageに保存
         localStorage.setItem('lawyerOffice', document.getElementById('lawyerOffice').value);
         localStorage.setItem('lawyerName', document.getElementById('lawyerName').value);
         closeModal('settingsModal');
     }
 
-    // --- Modal Logic ---
     function openModal(id) {
         document.getElementById(id).style.display = 'flex';
     }
@@ -772,31 +1008,93 @@
         document.getElementById(id).style.display = 'none';
     }
 
-    // --- Theme Logic ---
+    // ========= テーマ切替（localStorage保存対応） =========
     function setTheme(mode) {
+        applyTheme(mode);
+        localStorage.setItem('theme', mode);
+    }
+    
+    function applyTheme(mode) {
         const body = document.body;
-        const lightBtn = document.getElementById('themeLight');
-        const darkBtn = document.getElementById('themeDark');
-
         if (mode === 'dark') {
             body.classList.add('dark-mode');
+        } else {
+            body.classList.remove('dark-mode');
+        }
+        updateThemeButtonUI(mode);
+    }
+    
+    function updateThemeButtonUI(mode) {
+        const lightBtn = document.getElementById('themeLight');
+        const darkBtn = document.getElementById('themeDark');
+        if (!lightBtn || !darkBtn) return;
+        
+        if (mode === 'dark') {
             darkBtn.classList.add('active');
             lightBtn.classList.remove('active');
         } else {
-            body.classList.remove('dark-mode');
             lightBtn.classList.add('active');
             darkBtn.classList.remove('active');
         }
     }
 
-    // --- Conflict Check Color Logic ---
     function updateConflictColor(select) {
         select.className = '';
         if (select.value === 'OK') select.classList.add('status-ok');
         if (select.value === '要注意') select.classList.add('status-warn');
     }
 
-    // --- ToDo Logic ---
+    // ========= 各カラムのコピー機能 =========
+    function copyTextarea(targetId, btnElement) {
+        const textarea = document.getElementById(targetId);
+        const text = textarea.value;
+        
+        if (!text.trim()) {
+            const originalText = btnElement.innerText;
+            btnElement.innerText = '⚠️ 空です';
+            setTimeout(() => {
+                btnElement.innerText = originalText;
+            }, 1500);
+            return;
+        }
+        
+        // モダンなclipboard APIを優先、失敗したらfallback
+        const showSuccess = () => {
+            const originalText = btnElement.innerText;
+            btnElement.classList.add('copied');
+            btnElement.innerText = '✓ コピー完了';
+            setTimeout(() => {
+                btnElement.classList.remove('copied');
+                btnElement.innerText = originalText;
+            }, 1800);
+        };
+        
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(showSuccess).catch(() => {
+                fallbackCopy(textarea, btnElement, showSuccess);
+            });
+        } else {
+            fallbackCopy(textarea, btnElement, showSuccess);
+        }
+    }
+    
+    function fallbackCopy(textarea, btnElement, successCallback) {
+        try {
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            successCallback();
+        } catch(e) {
+            const originalText = btnElement.innerText;
+            btnElement.innerText = '❌ 失敗';
+            setTimeout(() => {
+                btnElement.innerText = originalText;
+            }, 1500);
+        }
+    }
+
+    // ========= ToDo関連 =========
     const todoListElement = document.getElementById('todoList');
 
     function addTodoItem(text, date, priority) {
@@ -829,15 +1127,76 @@
         document.getElementById('newTodoText').value = '';
     }
 
-    function insertTemplateTodo() {
-        const templates = [
-            { text: '契約書・関連規約の有無確認', priority: '高' },
-            { text: '請求書／入金履歴の確認', priority: '高' },
-            { text: '督促履歴・交渉経過の整理', priority: '中' },
+    // 分野に応じたToDoテンプレート
+    const TODO_TEMPLATES_BY_FIELD = {
+        '債権回収': [
+            { text: '契約書・請求書の有無確認', priority: '高' },
+            { text: '入金履歴・督促履歴の確認', priority: '高' },
             { text: '時効完成の有無チェック', priority: '高' },
             { text: '相手方資産調査（登記等）', priority: '中' },
-            { text: '証拠資料の収集・保全', priority: '高' }
-        ];
+            { text: '仮差押えの必要性検討', priority: '中' }
+        ],
+        '離婚': [
+            { text: '婚姻関係資料の収集（戸籍等）', priority: '高' },
+            { text: '財産目録の作成（双方）', priority: '高' },
+            { text: '親権・養育費の意向確認', priority: '高' },
+            { text: 'DV・モラハラ証拠の有無確認', priority: '中' },
+            { text: '年金分割の情報通知請求要否', priority: '低' }
+        ],
+        '相続': [
+            { text: '被相続人の戸籍収集', priority: '高' },
+            { text: '遺言書の有無・検認手続', priority: '高' },
+            { text: '相続財産目録の作成', priority: '高' },
+            { text: '相続放棄期限（3ヶ月）の確認', priority: '高' },
+            { text: '遺留分侵害額請求の検討', priority: '中' }
+        ],
+        '労働': [
+            { text: '就業規則・雇用契約書の確認', priority: '高' },
+            { text: 'タイムカード・勤怠記録の確保', priority: '高' },
+            { text: '解雇理由書・処分通知の確認', priority: '高' },
+            { text: '労基署への相談履歴確認', priority: '中' },
+            { text: '労働審判・本訴の選択検討', priority: '中' }
+        ],
+        '不動産': [
+            { text: '賃貸借契約書の確認', priority: '高' },
+            { text: '滞納額・滞納期間の集計', priority: '高' },
+            { text: '契約解除通知の送付準備', priority: '高' },
+            { text: '占有関係の調査（同居人等）', priority: '中' },
+            { text: '建物明渡訴訟の準備', priority: '中' }
+        ],
+        '交通事故': [
+            { text: '事故証明書の取得', priority: '高' },
+            { text: '診断書・治療費関連資料', priority: '高' },
+            { text: '保険会社対応記録', priority: '高' },
+            { text: '過失割合の検討', priority: '中' },
+            { text: '後遺障害等級認定の検討', priority: '中' }
+        ],
+        '企業法務': [
+            { text: '関連契約書の精査', priority: '高' },
+            { text: '社内規程・コンプラ規程確認', priority: '高' },
+            { text: '役員会議事録の確認', priority: '中' },
+            { text: '関係者ヒアリング実施', priority: '中' },
+            { text: '対外公表・開示要否の検討', priority: '中' }
+        ],
+        '刑事': [
+            { text: '逮捕・勾留状況の確認', priority: '高' },
+            { text: '接見・被疑者面会の手配', priority: '高' },
+            { text: '被害者との示談交渉準備', priority: '高' },
+            { text: '勾留期限・起訴前後の方針', priority: '高' },
+            { text: '証拠開示請求の検討', priority: '中' }
+        ],
+        'その他': [
+            { text: '事実関係の時系列整理', priority: '高' },
+            { text: '関連証拠の保全', priority: '高' },
+            { text: '法的構成の検討', priority: '中' },
+            { text: '費用対効果の試算', priority: '中' },
+            { text: '依頼者への中間報告', priority: '低' }
+        ]
+    };
+
+    function insertTemplateTodo() {
+        const field = document.getElementById('field').value;
+        const templates = TODO_TEMPLATES_BY_FIELD[field] || TODO_TEMPLATES_BY_FIELD['その他'];
 
         const today = new Date();
         today.setDate(today.getDate() + 7);
@@ -848,7 +1207,7 @@
         });
     }
 
-    // --- Demo & Clear Logic ---
+    // ========= デモデータ =========
     function fillDemoData() {
         document.getElementById('caseName').value = '鈴木一郎 貸金返還請求事件';
         document.getElementById('clientName').value = '鈴木 一郎';
@@ -887,21 +1246,30 @@
         document.getElementById('feeLitigation').value = '33';
         document.getElementById('feeRemarks').value = '日当3.3万円/回、実費別';
 
-        document.getElementById('lawyerOffice').value = '丸の内総合法律事務所';
-        document.getElementById('lawyerName').value = '弁護士 山田 太郎';
+        // 事務所情報がまだ空なら、デモとして入れる
+        if (!document.getElementById('lawyerOffice').value) {
+            document.getElementById('lawyerOffice').value = '丸の内総合法律事務所';
+        }
+        if (!document.getElementById('lawyerName').value) {
+            document.getElementById('lawyerName').value = '弁護士 山田 太郎';
+        }
 
         todoListElement.innerHTML = '';
         insertTemplateTodo();
     }
 
+    // ========= クリア機能（事務所情報は保護） =========
     function clearData() {
-        if(!confirm('入力内容をすべて消去しますか？')) return;
+        if(!confirm('入力内容をすべて消去しますか？\n※設定済みの事務所名・弁護士名は保持されます。')) return;
+        
+        // 保護対象のID
+        const protectedIds = ['lawyerOffice', 'lawyerName'];
         
         const inputs = document.querySelectorAll('input:not([type="password"]), textarea, select');
         inputs.forEach(input => {
-            if(input.type !== 'button' && input.type !== 'submit') {
-                input.value = '';
-            }
+            if(input.type === 'button' || input.type === 'submit') return;
+            if(protectedIds.includes(input.id)) return;
+            input.value = '';
         });
         
         document.getElementById('status').value = '相談中';
@@ -913,12 +1281,48 @@
         todoListElement.innerHTML = '';
     }
 
-    // --- AI Direct API Logic via Workers ---
+    // ========= AI分析（Workers経由） + アニメーション =========
+    const AI_STATUS_MESSAGES = [
+        '事実関係を精査しています',
+        '要件事実を整理中です',
+        '関連条文を検索しています',
+        '類似判例を照会中です',
+        '想定される反論を検討中です',
+        '争点の優先順位を評価しています',
+        'まもなく分析結果が出ます'
+    ];
+    let aiMessageTimer = null;
+
+    function showAiOverlay() {
+        document.getElementById('aiOverlay').classList.add('active');
+        
+        // サブメッセージを順次切り替え
+        let idx = 0;
+        const subText = document.getElementById('aiSubText');
+        subText.innerText = AI_STATUS_MESSAGES[0];
+        
+        aiMessageTimer = setInterval(() => {
+            idx = (idx + 1) % AI_STATUS_MESSAGES.length;
+            subText.style.opacity = '0';
+            setTimeout(() => {
+                subText.innerText = AI_STATUS_MESSAGES[idx];
+                subText.style.opacity = '1';
+            }, 300);
+        }, 3500);
+    }
+    
+    function hideAiOverlay() {
+        document.getElementById('aiOverlay').classList.remove('active');
+        if (aiMessageTimer) {
+            clearInterval(aiMessageTimer);
+            aiMessageTimer = null;
+        }
+    }
+
     async function runAiAnalysis(btn) {
         const field = document.getElementById('field').value;
         const facts = document.getElementById('facts').value;
         
-        // ★ ここにデプロイされたWorkersのURLを直接指定します
         const apiUrl = 'https://bengoshi-shikou-compass.yymmatsu.workers.dev/';
 
         if (!facts.trim()) {
@@ -952,6 +1356,9 @@ ${facts}
             btnIcon.innerText = "⏳";
             btn.style.opacity = "0.7";
             btn.style.cursor = "not-allowed";
+            
+            // アニメーションオーバーレイ表示
+            showAiOverlay();
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -978,11 +1385,12 @@ ${facts}
             issuesTextarea.style.backgroundColor = "rgba(46, 204, 113, 0.2)";
             setTimeout(() => {
                 issuesTextarea.style.backgroundColor = "var(--input-bg)";
-            }, 1000);
+            }, 1500);
 
         } catch (error) {
             alert(`エラー: ${error.message}\n通信環境やバックエンドの設定を確認してください。`);
         } finally {
+            hideAiOverlay();
             btn.disabled = false;
             btnText.innerText = originalText;
             btnIcon.innerText = "🤖";
@@ -991,7 +1399,7 @@ ${facts}
         }
     }
 
-    // --- Output Logic ---
+    // ========= 出力ロジック =========
     function generateOutput(type) {
         const d = {
             caseName: document.getElementById('caseName').value,
@@ -1035,7 +1443,7 @@ ${facts}
             output = `【案件管理シート：${d.caseName}】\n`;
             output += `■基本情報\n`;
             output += `・依頼者：${d.client}\n・相手方：${d.opponent}\n・分野：${d.field}\n・ステータス：${d.status}\n`;
-            output += `・期限：${d.deadline}\n・利益相反：${d.conflict}\n\n`;
+            output += `・期限：${d.deadline || '未設定'}\n・利益相反：${d.conflict}\n\n`;
             output += `■事実関係\n${d.facts}\n\n`;
             output += `■法的論点・メモ\n${d.issues}\n\n`;
             output += `■方針・リスク\n${d.strategy}\n\n`;
@@ -1044,8 +1452,8 @@ ${facts}
             if(d.fees.neg) output += `・交渉：${d.fees.neg}万円\n`;
             if(d.fees.med) output += `・調停：${d.fees.med}万円\n`;
             if(d.fees.lit) output += `・訴訟：${d.fees.lit}万円\n`;
-            output += `・備考：${d.fees.rem}\n\n`;
-            output += `■Next Action\n${d.todos.join('\n')}`;
+            if(d.fees.rem) output += `・備考：${d.fees.rem}\n`;
+            output += `\n■Next Action\n${d.todos.join('\n') || '（未登録）'}`;
         } 
         else if (type === 'client') {
             output = `【相談メモ】${d.caseName}\n`;
@@ -1059,7 +1467,7 @@ ${facts}
             if(d.fees.med) output += `・調停着手金：${d.fees.med}万円程度\n`;
             if(d.fees.lit) output += `・訴訟着手金：${d.fees.lit}万円程度\n`;
             output += `※具体的なお見積りは別途作成いたします。\n\n`;
-            output += `■お願いしたい事項\n${d.todos.join('\n')}`;
+            output += `■お願いしたい事項\n${d.todos.join('\n') || '（特になし）'}`;
             output += lawyerSign;
         }
         else if (type === 'estimate') {
@@ -1077,8 +1485,8 @@ ${facts}
         }
 
         document.getElementById('modalTitle').innerText = 
-            type === 'internal' ? '事務所内共有用' : 
-            type === 'client' ? '依頼者説明用' : '見積たたき台';
+            type === 'internal' ? '① 事務所内共有用' : 
+            type === 'client' ? '② 依頼者説明用' : '③ 見積たたき台';
         
         document.getElementById('outputText').value = output;
         document.getElementById('outputModal').style.display = 'flex';
@@ -1086,13 +1494,9 @@ ${facts}
 
     function copyToClipboard(targetId, btnElement) {
         const copyText = document.getElementById(targetId);
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); 
-
-        try {
-            document.execCommand("copy");
-            window.getSelection().removeAllRanges();
-
+        const text = copyText.value;
+        
+        const showSuccess = () => {
             const originalText = btnElement.innerText;
             const originalBg = btnElement.style.backgroundColor;
             
@@ -1103,13 +1507,29 @@ ${facts}
                 btnElement.innerText = originalText;
                 btnElement.style.backgroundColor = originalBg;
             }, 2000);
-            
+        };
+        
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(showSuccess).catch(() => {
+                legacyCopy(copyText, btnElement, showSuccess);
+            });
+        } else {
+            legacyCopy(copyText, btnElement, showSuccess);
+        }
+    }
+    
+    function legacyCopy(textarea, btnElement, successCallback) {
+        try {
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+            successCallback();
         } catch (err) {
             btnElement.innerText = "❌ コピー失敗";
             btnElement.style.backgroundColor = "#e74c3c"; 
-            
             setTimeout(() => {
-                btnElement.innerText = "クリップボードにコピー";
+                btnElement.innerText = "📋 クリップボードにコピー";
                 btnElement.style.backgroundColor = "";
             }, 2000);
         }
