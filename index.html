@@ -46,7 +46,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 0; /* 固定ヘッダーのために余白を0に変更 */
             line-height: 1.5;
             transition: background-color 0.3s, color 0.3s;
         }
@@ -55,6 +55,7 @@
             max-width: 1400px;
             margin: 0 auto;
             min-height: calc(100vh - 100px);
+            padding: 0 20px 20px 20px; /* コンテナ側に余白を持たせる */
         }
         .card {
             background: var(--card-bg);
@@ -134,11 +135,35 @@
         }
         body.dark-mode label { color: #aaa; }
 
+        /* ============================
+           ヘッダー・タイトル部
+           ============================ */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .app-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(15, 76, 129, 0.1);
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+        body.dark-mode .app-logo {
+            background-color: rgba(100, 181, 246, 0.1);
+        }
+        .app-logo svg {
+            stroke: var(--primary-color);
         }
         .header-left h1 {
             font-size: 1.5rem;
@@ -154,9 +179,8 @@
             font-weight: normal;
             letter-spacing: 0.05em;
         }
-        body.dark-mode .sub-catchphrase {
-            color: #aaa;
-        }
+        body.dark-mode .sub-catchphrase { color: #aaa; }
+        
         .header-right {
             display: flex;
             align-items: center;
@@ -192,6 +216,40 @@
             border: none;
         }
         
+        /* 他アプリへのリンク用ボタン */
+        .header-link-btn {
+            font-size: 0.85rem;
+            color: #555;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background-color: rgba(0,0,0,0.03);
+            border: 1px solid transparent;
+        }
+        .header-link-btn:hover {
+            background-color: rgba(0,0,0,0.08);
+            border-color: #ddd;
+        }
+        body.dark-mode .header-link-btn {
+            color: #ccc;
+            background-color: rgba(255,255,255,0.05);
+        }
+        body.dark-mode .header-link-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: #555;
+        }
+        .header-separator {
+            width: 1px;
+            height: 24px;
+            background-color: #ccc;
+            margin: 0 5px;
+        }
+        body.dark-mode .header-separator { background-color: #555; }
+        
         /* コピーアイコンボタン */
         .copy-icon-btn {
             background: none;
@@ -216,16 +274,26 @@
             border-color: #27ae60;
         }
         
-        /* 案件ヘッダーの固定（Sticky）設定を追加 */
-        #case-header {
+        /* ============================
+           全体固定（Sticky）用ラッパー 
+           ============================ */
+        .top-sticky-wrapper {
             position: sticky;
-            top: 10px;
+            top: 0;
             z-index: 100;
-            /* スクロールして浮いている状態を強調 */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background-color: var(--bg-color); /* 背景を透けさせない */
+            padding-top: 20px;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+        /* 固定された案件カードの影を少し強めて浮き上がらせる */
+        #case-header {
+            margin-bottom: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
         body.dark-mode #case-header {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
 
         .case-header-grid { display: grid; gap: 15px; }
@@ -627,6 +695,16 @@
         }
 
         @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .header-right {
+                width: 100%;
+                justify-content: flex-end;
+                flex-wrap: wrap;
+            }
             .row-1 { grid-template-columns: 1fr 1fr; }
             .row-2 { grid-template-columns: 1fr; }
             .main-columns { grid-template-columns: 1fr; }
@@ -638,79 +716,103 @@
 <body>
 
 <div class="container">
-    <header>
-        <div class="header-left">
-            <h1>
-                弁護士思考コンパス
-                <span class="sub-catchphrase">書く時間を減らし、考える時間を増やす。</span>
-            </h1>
-        </div>
-        <div class="header-right">
-            <button class="btn-text" onclick="openModal('usageModal')">
-                <span>📖</span> 使い方
-            </button>
-            <button class="icon-btn" onclick="openSettingsModal()" title="設定">
-                ⚙️
-            </button>
-        </div>
-    </header>
+    <!-- ヘッダーと案件情報ブロックをまとめて上部に固定するためのラッパー -->
+    <div class="top-sticky-wrapper">
+        <header>
+            <div class="header-left">
+                <div class="app-logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+                        <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
+                        <path d="M7 21h10"/>
+                        <path d="M12 3v18"/>
+                        <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
+                    </svg>
+                </div>
+                <h1>
+                    弁護士思考コンパス
+                    <span class="sub-catchphrase">書く時間を減らし、考える時間を増やす。</span>
+                </h1>
+            </div>
+            <div class="header-right">
+                <!-- 外部アプリリンク追加 -->
+                <a href="https://spc-jp.github.io/syomen-check/" target="_blank" class="header-link-btn" title="書面チェックくんを別タブで開く">
+                    📄 書面チェックくん
+                </a>
+                <a href="https://spc-jp.github.io/tokumeikakun/" target="_blank" class="header-link-btn" title="匿名化くんを別タブで開く">
+                    🔒 匿名化くん
+                </a>
+                <div class="header-separator"></div>
+                <!-- 既存のボタン群 -->
+                <button class="btn-text" onclick="openModal('usageModal')">
+                    <span>📖</span> 使い方
+                </button>
+                <button class="icon-btn" onclick="openSettingsModal()" title="設定">
+                    ⚙️
+                </button>
+            </div>
+        </header>
 
-    <section class="card" id="case-header">
-        <div class="case-header-grid">
-            <div class="row-1">
-                <div>
-                    <label>案件名</label>
-                    <input type="text" id="caseName" placeholder="例：〇〇氏 建物明渡請求事件">
+        <section class="card" id="case-header">
+            <div class="case-header-grid">
+                <div class="row-1">
+                    <div>
+                        <label>案件名</label>
+                        <input type="text" id="caseName" placeholder="例：〇〇氏 建物明渡請求事件">
+                    </div>
+                    <div>
+                        <label>依頼者名</label>
+                        <input type="text" id="clientName" placeholder="山田 太郎">
+                    </div>
+                    <div>
+                        <label>相手方</label>
+                        <input type="text" id="opponentName" placeholder="鈴木 次郎">
+                    </div>
+                    <div>
+                        <label>分野</label>
+                        <select id="field">
+                            <option value="債権回収">債権回収</option>
+                            <option value="離婚">離婚</option>
+                            <option value="相続">相続</option>
+                            <option value="労働">労働</option>
+                            <option value="不動産">不動産</option>
+                            <option value="交通事故">交通事故</option>
+                            <option value="企業法務">企業法務</option>
+                            <option value="刑事">刑事</option>
+                            <option value="その他">その他</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label>依頼者名</label>
-                    <input type="text" id="clientName" placeholder="山田 太郎">
-                </div>
-                <div>
-                    <label>相手方</label>
-                    <input type="text" id="opponentName" placeholder="鈴木 次郎">
-                </div>
-                <div>
-                    <label>分野</label>
-                    <select id="field">
-                        <option value="債権回収">債権回収</option>
-                        <option value="離婚">離婚</option>
-                        <option value="相続">相続</option>
-                        <option value="労働">労働</option>
-                        <option value="不動産">不動産</option>
-                        <option value="交通事故">交通事故</option>
-                        <option value="企業法務">企業法務</option>
-                        <option value="刑事">刑事</option>
-                        <option value="その他">その他</option>
-                    </select>
+                <div class="row-2">
+                    <div>
+                        <label>ステータス</label>
+                        <select id="status">
+                            <option value="相談中">相談中</option>
+                            <option value="受任">受任</option>
+                            <option value="交渉中">交渉中</option>
+                            <option value="調停">調停</option>
+                            <option value="訴訟">訴訟</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>最重要期限</label>
+                        <div style="display: flex; gap: 5px; align-items: center;">
+                            <input type="date" id="deadline" style="margin-bottom: 0;">
+                            <button class="btn btn-outline btn-sm" onclick="addDeadlineEventToCalendar()" title="Googleカレンダーに登録" style="padding: 6px 10px;">📅</button>
+                        </div>
+                    </div>
+                    <div class="conflict-check-group">
+                        <label>利益相反チェック</label>
+                        <select id="conflictCheck" onchange="updateConflictColor(this)">
+                            <option value="未確認">未確認</option>
+                            <option value="OK" class="status-ok">OK（問題なし）</option>
+                            <option value="要注意" class="status-warn">要注意／要確認</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="row-2">
-                <div>
-                    <label>ステータス</label>
-                    <select id="status">
-                        <option value="相談中">相談中</option>
-                        <option value="受任">受任</option>
-                        <option value="交渉中">交渉中</option>
-                        <option value="調停">調停</option>
-                        <option value="訴訟">訴訟</option>
-                    </select>
-                </div>
-                <div>
-                    <label>最重要期限</label>
-                    <input type="date" id="deadline">
-                </div>
-                <div class="conflict-check-group">
-                    <label>利益相反チェック</label>
-                    <select id="conflictCheck" onchange="updateConflictColor(this)">
-                        <option value="未確認">未確認</option>
-                        <option value="OK" class="status-ok">OK（問題なし）</option>
-                        <option value="要注意" class="status-warn">要注意／要確認</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </div> <!-- /top-sticky-wrapper 終了 -->
 
     <div class="main-columns">
         <div class="col card">
@@ -1144,11 +1246,20 @@
             <input type="checkbox">
             <span class="${priorityClass}">${priority}</span>
             <div style="flex:1">
-                <div>${text}</div>
+                <div class="todo-text"></div>
                 <div style="font-size:0.8rem; color:var(--text-color); opacity:0.7;">期限: ${date || '未定'}</div>
             </div>
-            <button class="btn btn-outline btn-sm" onclick="this.parentElement.remove()" style="padding:2px 6px;">×</button>
+            <button class="btn-text" style="font-size:1.2rem; padding:0 5px;" title="Googleカレンダーに登録">📅</button>
+            <button class="btn btn-outline btn-sm del-btn" style="padding:2px 6px;">×</button>
         `;
+        
+        li.querySelector('.todo-text').textContent = text;
+        li.querySelector('.del-btn').onclick = () => li.remove();
+        
+        // カレンダー登録ボタンのイベント
+        const calBtn = li.querySelectorAll('button')[0];
+        calBtn.onclick = () => addTodoEventToCalendar(text, date, priority);
+        
         todoListElement.appendChild(li);
     }
 
@@ -1160,6 +1271,69 @@
         if(!text) return;
         addTodoItem(text, date, priority);
         document.getElementById('newTodoText').value = '';
+    }
+
+    // ========= Googleカレンダー連携 =========
+    function formatGoogleCalendarDate(dateString) {
+        if (!dateString) return null;
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return null;
+        
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        
+        const endDate = new Date(date);
+        endDate.setDate(endDate.getDate() + 1);
+        const e_yyyy = endDate.getFullYear();
+        const e_mm = String(endDate.getMonth() + 1).padStart(2, '0');
+        const e_dd = String(endDate.getDate()).padStart(2, '0');
+        
+        return `${yyyy}${mm}${dd}/${e_yyyy}${e_mm}${e_dd}`;
+    }
+
+    function openGoogleCalendar(title, dateStr, description) {
+        const baseUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE';
+        let url = `${baseUrl}&text=${encodeURIComponent(title)}`;
+        
+        const dates = formatGoogleCalendarDate(dateStr);
+        if (dates) {
+            url += `&dates=${dates}`;
+        }
+        
+        if (description) {
+            url += `&details=${encodeURIComponent(description)}`;
+        }
+        
+        window.open(url, '_blank');
+    }
+
+    function addDeadlineEventToCalendar() {
+        const caseName = document.getElementById('caseName').value || '案件名未入力';
+        const dateStr = document.getElementById('deadline').value;
+        
+        if (!dateStr) {
+            alert('期限の日付を入力してください。');
+            return;
+        }
+        
+        const title = `【重要期限】${caseName}`;
+        const desc = `案件名: ${caseName}\n\n※弁護士思考コンパスより登録`;
+        
+        openGoogleCalendar(title, dateStr, desc);
+    }
+
+    function addTodoEventToCalendar(text, dateStr, priority) {
+        if (!dateStr) {
+            alert('期限が設定されていません。カレンダーに登録するには期限を設定して追加し直してください。');
+            return;
+        }
+        
+        const caseName = document.getElementById('caseName').value || '案件名未入力';
+        const title = `【ToDo】${text} (${caseName})`;
+        const desc = `優先度: ${priority}\n案件名: ${caseName}\nタスク内容: ${text}\n\n※弁護士思考コンパスより登録`;
+        
+        openGoogleCalendar(title, dateStr, desc);
     }
 
     // 分野に応じたToDoテンプレート
@@ -1379,7 +1553,8 @@
 ${facts}
 ---
 
-※出力は簡潔に箇条書きで、実務に即した内容にしてください。`;
+※出力は簡潔に箇条書きで、実務に即した内容にしてください。
+※重要：出力テキストにマークダウン記号（** や # など）は一切使用せず、プレーンテキストのみで出力してください。`;
 
         const btnText = document.getElementById('aiBtnText');
         const btnIcon = document.getElementById('aiBtnIcon');
@@ -1411,7 +1586,10 @@ ${facts}
             }
 
             const data = await response.json();
-            const aiResult = data.content[0].text;
+            let aiResult = data.content[0].text;
+            
+            // 念のため、AIがマークダウン記号を出力した場合に備えて削除（置換）する処理
+            aiResult = aiResult.replace(/\*\*/g, '').replace(/#/g, '');
 
             const issuesTextarea = document.getElementById('issues');
             issuesTextarea.value = `【AI分析結果】\n${aiResult}\n\n------------------------\n` + issuesTextarea.value;
