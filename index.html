@@ -516,7 +516,7 @@
                 <button class="btn btn-sm" style="background-color: #8e44ad; width: 100%; display: flex; justify-content: center; align-items: center; gap: 5px;" onclick="runAiAnalysis(this)">
                     <span id="aiBtnIcon">🤖</span> <span id="aiBtnText">AIに論点を自動分析させる</span>
                 </button>
-                <div style="font-size: 0.7rem; color: #666; margin-top: 3px;">※Anthropic APIで中央カラムに自動出力します</div>
+                <div style="font-size: 0.7rem; color: #666; margin-top: 3px;">※AIが中央カラムに論点候補を自動出力します</div>
             </div>
         </div>
 
@@ -656,15 +656,6 @@
             </div>
             <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
             <div class="settings-row">
-                <label>API設定（Cloudflare Workers連携）</label>
-                <div style="margin-bottom:10px;">
-                    <label>Workers API URL</label>
-                    <input type="text" id="workerApiUrl" placeholder="https://....workers.dev/">
-                    <div style="font-size:0.75rem; color:#888;">※APIキーはWorkers側に環境変数として設定してください。</div>
-                </div>
-            </div>
-            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-            <div class="settings-row">
                 <label>弁護士基本情報（出力時に使用）</label>
                 <div style="margin-bottom:10px;">
                     <label>事務所名</label>
@@ -760,13 +751,6 @@
 
     // --- Settings & LocalStorage Logic ---
     window.addEventListener('DOMContentLoaded', () => {
-        const storedUrl = localStorage.getItem('workerApiUrl');
-        if(storedUrl) {
-            document.getElementById('workerApiUrl').value = storedUrl;
-        } else {
-            document.getElementById('workerApiUrl').value = 'https://bengoshi-shikou-compass.yymmatsu.workers.dev/';
-        }
-        
         const storedOffice = localStorage.getItem('lawyerOffice');
         if(storedOffice) document.getElementById('lawyerOffice').value = storedOffice;
         
@@ -775,7 +759,6 @@
     });
 
     function closeSettingsModal() {
-        localStorage.setItem('workerApiUrl', document.getElementById('workerApiUrl').value);
         localStorage.setItem('lawyerOffice', document.getElementById('lawyerOffice').value);
         localStorage.setItem('lawyerName', document.getElementById('lawyerName').value);
         closeModal('settingsModal');
@@ -928,25 +911,18 @@
         
         document.querySelectorAll('.template-select').forEach(s => s.selectedIndex = 0);
         todoListElement.innerHTML = '';
-        
-        // Restore API URL from localStorage if cleared
-        const storedUrl = localStorage.getItem('workerApiUrl');
-        if(storedUrl) document.getElementById('workerApiUrl').value = storedUrl;
     }
 
     // --- AI Direct API Logic via Workers ---
     async function runAiAnalysis(btn) {
         const field = document.getElementById('field').value;
         const facts = document.getElementById('facts').value;
-        const apiUrl = document.getElementById('workerApiUrl').value || localStorage.getItem('workerApiUrl');
+        
+        // ★ ここにデプロイされたWorkersのURLを直接指定します
+        const apiUrl = 'https://bengoshi-shikou-compass.yymmatsu.workers.dev/';
 
         if (!facts.trim()) {
             alert('先に「事実関係」を入力してください。');
-            return;
-        }
-        if (!apiUrl) {
-            alert('設定画面（右上の歯車マーク）からWorkers API URLを設定してください。');
-            openModal('settingsModal');
             return;
         }
 
@@ -1005,7 +981,7 @@ ${facts}
             }, 1000);
 
         } catch (error) {
-            alert(`エラー: ${error.message}\nWorkersのURLが正しいか、CORS設定等が正しく行われているか確認してください。`);
+            alert(`エラー: ${error.message}\n通信環境やバックエンドの設定を確認してください。`);
         } finally {
             btn.disabled = false;
             btnText.innerText = originalText;
