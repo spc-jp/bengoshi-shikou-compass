@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>弁護士思考コンパス</title>
+    <title>弁護士 思考コンパス | Suite</title>
     
     <!-- Favicon & OGP 設定 -->
     <link rel="icon" href="https://spc-jp.github.io/bengoshi-shikou-compass/favicon.png" type="image/png">
@@ -12,747 +12,480 @@
     <meta property="og:image" content="https://spc-jp.github.io/bengoshi-shikou-compass/ogp.png">
     <meta property="og:type" content="website">
 
+    <!-- Google Fonts: Suite統一 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Phosphor Icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
     <style>
+        /* ------------------------------------------------------------------
+           Base Variables & Reset (Suite Theme)
+        ------------------------------------------------------------------ */
         :root {
-            --primary-color: #0f4c81;
-            --accent-color: #d9534f;
-            --bg-color: #f4f7f9;
+            --primary-h: 215;
+            --primary-s: 40%;
+            --primary-l: 20%; 
+            
+            --primary-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
+            --primary-light: hsl(var(--primary-h), var(--primary-s), 90%);
+            
+            --premium-gold: #c5a059; 
+            --premium-gold-light: #f0e6d2;
+            
+            --accent-color: #e74c3c; 
+            --warn-color: #f39c12;
+            --success-color: #27ae60;
+            
+            --bg-color: #f8f9fa;
             --card-bg: #ffffff;
-            --text-color: #333;
+            --card-alt: #f4f6f8;
+            --text-color: #2c3e50;
+            --text-muted: #636e72;
             --input-bg: #ffffff;
-            --input-border: #ccc;
+            --input-border: #dfe6e9;
+            
             --border-radius: 8px;
-            --shadow: 0 2px 4px rgba(0,0,0,0.05);
-            --modal-overlay: rgba(0,0,0,0.5);
-            --gold: #c9a961;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-float: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+            --modal-overlay: rgba(0,0,0,0.45);
         }
 
         body.dark-mode {
-            --primary-color: #64b5f6;
-            --accent-color: #ff8a80;
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #e0e0e0;
-            --input-bg: #2c2c2c;
-            --input-border: #555;
-            --shadow: 0 2px 8px rgba(0,0,0,0.5);
+            --bg-color: #0f1115;
+            --card-bg: #1a1d21;
+            --card-alt: #23272e;
+            --text-color: #ecf0f1;
+            --text-muted: #94a3b8;
+            --input-bg: #1a1d21;
+            --input-border: #334155;
+            --primary-color: #2c3e50; /* Darker primary for dark mode header */
+            --accent-color: #ff6b6b;
+            --shadow: 0 4px 12px rgba(0,0,0,0.4);
+            --shadow-float: 0 10px 20px -5px rgba(0, 0, 0, 0.6);
             --modal-overlay: rgba(0,0,0,0.7);
         }
 
         * { box-sizing: border-box; }
 
         body {
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            font-family: 'Roboto', 'Noto Sans JP', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 0; /* 固定ヘッダーのために余白を0に変更 */
-            line-height: 1.5;
+            padding: 0;
+            padding-top: 70px; /* Suite Header Height */
+            line-height: 1.6;
             transition: background-color 0.3s, color 0.3s;
+            -webkit-font-smoothing: antialiased;
         }
 
+        /* ------------------------------------------------------------------
+           Suite Header (Global)
+        ------------------------------------------------------------------ */
+        .suite-header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 70px;
+            background: var(--primary-color);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid var(--premium-gold);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-mark {
+            width: 42px; height: 42px;
+            background: var(--premium-gold);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; color: #ffffff;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-decoration: none;
+        }
+
+        .logo-text h1 {
+            font-size: 18px; color: #ffffff; font-weight: 700; margin: 0; letter-spacing: 0.02em;
+        }
+        .logo-text p {
+            font-size: 11px; color: rgba(255,255,255,0.7); margin: 2px 0 0 0; letter-spacing: 0.05em;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-link-btn {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .header-link-btn:hover {
+            background-color: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+
+        .header-separator {
+            width: 1px; height: 24px;
+            background-color: rgba(255,255,255,0.2);
+            margin: 0 8px;
+        }
+
+        .icon-btn-header {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #ffffff;
+            width: 36px; height: 36px;
+            border-radius: 6px; font-size: 18px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .icon-btn-header:hover { background: rgba(255,255,255,0.2); }
+
+        /* ------------------------------------------------------------------
+           Layout & Cards
+        ------------------------------------------------------------------ */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             min-height: calc(100vh - 100px);
-            padding: 0 20px 20px 20px; /* コンテナ側に余白を持たせる */
+            padding: 0 20px 20px 20px;
         }
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid var(--input-border);
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        h2 {
-            font-size: 1.1rem;
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-            border-bottom: 2px solid #eee;
-            padding-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        body.dark-mode h2 { border-bottom-color: #444; }
-        h3 {
-            font-size: 0.95rem;
-            margin: 15px 0 5px 0;
-            color: #555;
-        }
-        body.dark-mode h3 { color: #aaa; }
-        h4 {
-            font-size: 1rem;
-            color: var(--primary-color);
-            margin: 18px 0 8px 0;
-            padding-left: 10px;
-            border-left: 4px solid var(--primary-color);
-        }
-        input[type="text"], input[type="date"], input[type="number"], select, textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--input-border);
-            border-radius: 4px;
-            font-size: 0.95rem;
-            margin-bottom: 5px;
-            background-color: var(--input-bg);
-            color: var(--text-color);
-        }
-        
-        .template-select {
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 6px 10px;
-            border: 1px solid var(--input-border);
-            border-radius: 4px;
-            font-size: 0.85rem;
-            background-color: #f8f9fa;
-            color: #555;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .template-select:hover { background-color: #eef1f5; }
-        body.dark-mode .template-select {
-            background-color: #2c2c2c;
-            color: #e0e0e0;
-        }
-        body.dark-mode .template-select:hover { background-color: #383838; }
 
-        textarea {
-            resize: vertical;
-            min-height: 200px;
-            font-family: inherit;
-        }
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #666;
-            margin-bottom: 3px;
-        }
-        body.dark-mode label { color: #aaa; }
-
-        /* ============================
-           ヘッダー・タイトル部
-           ============================ */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .app-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(15, 76, 129, 0.1);
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            flex-shrink: 0;
-        }
-        body.dark-mode .app-logo {
-            background-color: rgba(100, 181, 246, 0.1);
-        }
-        .app-logo svg {
-            stroke: var(--primary-color);
-        }
-        .header-left h1 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin: 0;
-            line-height: 1.2;
-        }
-        .sub-catchphrase {
-            display: block;
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 6px;
-            font-weight: normal;
-            letter-spacing: 0.05em;
-        }
-        body.dark-mode .sub-catchphrase { color: #aaa; }
-        
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: var(--text-color);
-            padding: 5px;
-            border-radius: 50%;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-        }
-        .icon-btn:hover { background-color: rgba(0,0,0,0.05); }
-        body.dark-mode .icon-btn:hover { background-color: rgba(255,255,255,0.1); }
-        .btn-text {
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            text-decoration: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: none;
-            border: none;
-        }
-        
-        /* 他アプリへのリンク用ボタン */
-        .header-link-btn {
-            font-size: 0.85rem;
-            color: #555;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background-color: rgba(0,0,0,0.03);
-            border: 1px solid transparent;
-        }
-        .header-link-btn:hover {
-            background-color: rgba(0,0,0,0.08);
-            border-color: #ddd;
-        }
-        body.dark-mode .header-link-btn {
-            color: #ccc;
-            background-color: rgba(255,255,255,0.05);
-        }
-        body.dark-mode .header-link-btn:hover {
-            background-color: rgba(255,255,255,0.1);
-            border-color: #555;
-        }
-        .header-separator {
-            width: 1px;
-            height: 24px;
-            background-color: #ccc;
-            margin: 0 5px;
-        }
-        body.dark-mode .header-separator { background-color: #555; }
-        
-        /* コピーアイコンボタン */
-        .copy-icon-btn {
-            background: none;
-            border: 1px solid var(--input-border);
-            color: var(--primary-color);
-            font-size: 0.75rem;
-            padding: 3px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-        }
-        .copy-icon-btn:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        .copy-icon-btn.copied {
-            background-color: #27ae60;
-            color: white;
-            border-color: #27ae60;
-        }
-        
-        /* ============================
-           全体固定（Sticky）用ラッパー 
-           ============================ */
         .top-sticky-wrapper {
             position: sticky;
-            top: 0;
+            top: 70px; /* Header height */
             z-index: 100;
-            background-color: var(--bg-color); /* 背景を透けさせない */
+            background-color: var(--bg-color);
             padding-top: 20px;
             padding-bottom: 10px;
             margin-bottom: 10px;
             transition: background-color 0.3s;
         }
-        /* 固定された案件カードの影を少し強めて浮き上がらせる */
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--input-border);
+            transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        
         #case-header {
             margin-bottom: 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        body.dark-mode #case-header {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            box-shadow: var(--shadow-float);
         }
 
+        h2 {
+            font-size: 1.1rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--input-border);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+        }
+        h2 i { color: var(--primary-color); margin-right: 6px; }
+        
+        h3 { font-size: 0.95rem; margin: 15px 0 8px 0; color: var(--text-muted); font-weight: 700; }
+        h4 {
+            font-size: 1rem; color: var(--text-color);
+            margin: 18px 0 8px 0; padding-left: 10px;
+            border-left: 4px solid var(--premium-gold);
+            font-weight: 700;
+        }
+
+        /* ------------------------------------------------------------------
+           Form Controls
+        ------------------------------------------------------------------ */
+        input[type="text"], input[type="date"], input[type="number"], select, textarea {
+            width: 100%; padding: 10px;
+            border: 1px solid var(--input-border); border-radius: 6px;
+            font-size: 0.95rem; font-family: inherit; margin-bottom: 5px;
+            background-color: var(--input-bg); color: var(--text-color);
+            transition: border-color 0.2s; outline: none;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary-color); }
+        
+        .template-select {
+            width: 100%; margin-bottom: 12px; padding: 8px 10px;
+            background-color: var(--card-alt); color: var(--text-muted);
+            font-weight: 500; font-size: 0.85rem; border-color: transparent;
+        }
+        .template-select:hover { background-color: var(--input-border); }
+
+        textarea { resize: vertical; min-height: 200px; line-height: 1.7; }
+        
+        label {
+            display: block; font-size: 0.85rem; font-weight: 700;
+            color: var(--text-muted); margin-bottom: 6px;
+        }
+
+        .copy-icon-btn {
+            background: var(--card-alt); border: 1px solid var(--input-border);
+            color: var(--text-color); font-size: 0.75rem; font-weight: 700;
+            padding: 4px 10px; border-radius: 4px; cursor: pointer;
+            transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px;
+        }
+        .copy-icon-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
+        .copy-icon-btn.copied { background-color: var(--success-color); color: white; border-color: var(--success-color); }
+
+        /* ------------------------------------------------------------------
+           Grids & specific layouts
+        ------------------------------------------------------------------ */
         .case-header-grid { display: grid; gap: 15px; }
-        .row-1, .row-2 { display: grid; gap: 15px; }
-        .row-1 { grid-template-columns: 2fr 1fr 1fr 1fr; }
-        .row-2 { grid-template-columns: 1fr 1fr 1fr; }
+        .row-1 { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 15px; }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
 
         .conflict-check-group select { font-weight: bold; }
-        .status-ok { color: #27ae60; }
-        .status-warn { color: var(--accent-color); background-color: #fff0f0; }
-        body.dark-mode .status-warn { background-color: #330000; }
+        .status-ok { color: var(--success-color); }
+        .status-warn { color: var(--accent-color); background-color: rgba(231, 76, 60, 0.1); }
 
-        .main-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-        }
+        .main-columns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
         .col { display: flex; flex-direction: column; }
-        .fee-section {
-            background-color: #fcfcfc;
-            border-top: 2px dashed #ddd;
-            padding-top: 10px;
-            margin-top: 15px;
-        }
-        body.dark-mode .fee-section {
-            background-color: #252525;
-            border-top-color: #555;
-        }
-        .fee-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        .fee-row label {
-            width: 80px;
-            margin-bottom: 0;
-            font-size: 0.8rem;
-        }
-        .fee-row input {
-            flex: 1;
-            text-align: right;
-        }
-        .fee-unit {
-            margin-left: 5px;
-            font-size: 0.8rem;
-            color: #666;
-        }
-        body.dark-mode .fee-unit { color: #aaa; }
-
-        .todo-input-area {
-            display: flex;
-            gap: 10px;
-            align-items: flex-end;
-            margin-bottom: 15px;
-        }
-        .todo-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .todo-item {
-            display: flex;
-            align-items: center;
-            padding: 8px;
-            border-bottom: 1px solid #eee;
-            gap: 10px;
-        }
-        body.dark-mode .todo-item { border-bottom-color: #444; }
-        .todo-item:last-child { border-bottom: none; }
-        .priority-high { color: var(--accent-color); font-weight: bold; font-size: 0.8rem; border: 1px solid var(--accent-color); padding: 1px 4px; border-radius: 3px; }
-        .priority-mid { color: #e67e22; font-size: 0.8rem; border: 1px solid #e67e22; padding: 1px 4px; border-radius: 3px; }
-        .priority-low { color: #27ae60; font-size: 0.8rem; border: 1px solid #27ae60; padding: 1px 4px; border-radius: 3px; }
         
+        .fee-section {
+            background-color: var(--card-alt);
+            border-radius: 8px; padding: 15px; margin-top: 15px;
+            border: 1px solid var(--input-border);
+        }
+        .fee-section h3 { margin-top: 0; }
+        .fee-row { display: flex; align-items: center; margin-bottom: 8px; }
+        .fee-row label { width: 80px; margin-bottom: 0; }
+        .fee-row input { flex: 1; text-align: right; }
+        .fee-unit { margin-left: 8px; font-size: 0.8rem; color: var(--text-muted); font-weight: 700; }
+
+        /* ToDo Section */
+        .todo-input-area { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 20px; }
+        .todo-list { list-style: none; padding: 0; margin: 0; }
+        .todo-item {
+            display: flex; align-items: center; padding: 12px;
+            border: 1px solid var(--input-border); border-radius: 6px;
+            margin-bottom: 8px; gap: 12px; background: var(--input-bg);
+        }
+        .priority-high { color: var(--accent-color); font-weight: bold; font-size: 0.75rem; border: 1px solid var(--accent-color); padding: 2px 6px; border-radius: 4px; }
+        .priority-mid { color: var(--warn-color); font-size: 0.75rem; border: 1px solid var(--warn-color); padding: 2px 6px; border-radius: 4px; }
+        .priority-low { color: var(--success-color); font-size: 0.75rem; border: 1px solid var(--success-color); padding: 2px 6px; border-radius: 4px; }
+        
+        .del-btn { background: none; border: 1px solid var(--input-border); color: var(--text-muted); cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: 0.2s; width: 28px; height: 28px;}
+        .del-btn:hover { color: var(--accent-color); border-color: var(--accent-color); background: rgba(231, 76, 60, 0.1); }
+        .cal-btn { background: none; border: none; color: var(--primary-color); cursor: pointer; font-size: 1.2rem; transition: 0.2s; display: flex; align-items: center; padding: 4px;}
+        .cal-btn:hover { transform: scale(1.1); }
+
+        /* Buttons */
         .btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: opacity 0.2s, background-color 0.2s;
+            background-color: var(--primary-color); color: white;
+            border: none; padding: 10px 18px; border-radius: 6px;
+            cursor: pointer; font-size: 0.9rem; font-weight: 700;
+            transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .btn:hover { opacity: 0.9; }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); filter: brightness(1.1); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+        
         .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
+            background-color: transparent; border: 1px solid var(--input-border);
+            color: var(--text-color); box-shadow: none;
         }
-        .btn-outline:hover { background-color: rgba(15, 76, 129, 0.1); }
-        body.dark-mode .btn-outline:hover { background-color: rgba(100, 181, 246, 0.1); }
-        .btn-sm { padding: 6px 12px; font-size: 0.85rem; }
+        .btn-outline:hover { border-color: var(--primary-color); color: var(--primary-color); background-color: var(--card-alt); }
+        
+        .btn-ai {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            width: 100%; color: white;
+        }
+        .btn-ai:hover { box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3); }
 
+        /* Output Area */
         .output-area {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
+            display: flex; gap: 20px; justify-content: center;
+            margin-top: 30px; margin-bottom: 30px; padding-top: 30px;
+            border-top: 1px solid var(--input-border);
         }
-        body.dark-mode .output-area { border-top-color: #555; }
-        .output-btn-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-        .output-desc {
-            font-size: 0.75rem;
-            color: #666;
-        }
-        body.dark-mode .output-desc { color: #aaa; }
+        .output-btn-group { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; max-width: 300px;}
+        .output-btn-group .btn { width: 100%; padding: 14px; font-size: 1rem; }
+        .output-desc { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; }
 
-        .utility-footer {
-            text-align: center;
-            margin-bottom: 40px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        .btn-text-sub {
-            background: none;
-            border: none;
-            color: #999;
-            font-size: 0.8rem;
-            cursor: pointer;
-            text-decoration: underline;
-        }
+        /* Footer Utilities */
+        .utility-footer { text-align: center; margin-bottom: 40px; display: flex; justify-content: center; gap: 24px; }
+        .btn-text-sub { background: none; border: none; color: var(--text-muted); font-size: 0.85rem; font-weight: 700; cursor: pointer; text-decoration: underline; transition: 0.2s; }
         .btn-text-sub:hover { color: var(--primary-color); }
 
-        .main-footer {
-            text-align: center;
-            padding: 20px;
-            color: #999;
-            font-size: 0.8rem;
-            border-top: 1px solid #eee;
-        }
-        body.dark-mode .main-footer { border-top-color: #333; }
+        .main-footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--input-border); }
 
+        /* ------------------------------------------------------------------
+           Modals
+        ------------------------------------------------------------------ */
         .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--modal-overlay);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            display: none; position: fixed; inset: 0;
+            background: var(--modal-overlay); backdrop-filter: blur(4px);
+            justify-content: center; align-items: center; z-index: 2000;
         }
         .modal {
-            background: var(--card-bg);
-            padding: 20px;
-            width: 80%;
-            max-width: 800px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            max-height: 90vh;
-            color: var(--text-color);
-            box-shadow: var(--shadow);
+            background: var(--card-bg); padding: 24px;
+            width: 90%; max-width: 800px; border-radius: 12px;
+            display: flex; flex-direction: column; max-height: 90vh;
+            color: var(--text-color); box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             border: 1px solid var(--input-border);
         }
         .modal-sm { max-width: 500px; }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            align-items: center;
-        }
-        body.dark-mode .modal-header { border-bottom-color: #444; }
-        .modal-body {
-            overflow-y: auto;
-            padding-bottom: 10px;
-        }
-        .modal-body textarea {
-            height: 300px;
-            font-family: monospace;
-        }
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid var(--input-border); padding-bottom: 16px; align-items: center; }
+        .modal-header h3 { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 1.1rem; color: var(--text-color); }
+        .modal-header h3 i { color: var(--primary-color); font-size: 1.4rem; }
+        
+        .modal-body { overflow-y: auto; padding-bottom: 10px; }
+        .modal-body textarea { height: 300px; font-family: monospace; font-size: 13px; }
         
         .close-icon-btn {
-            background: none;
-            border: 1px solid var(--input-border);
-            color: var(--text-color);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
+            background: none; border: none; color: var(--text-muted); font-size: 1.5rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: color 0.2s;
         }
-        .close-icon-btn:hover {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
+        .close-icon-btn:hover { color: var(--accent-color); }
         
-        .settings-row { margin-bottom: 15px; }
-        .theme-options {
-            display: flex;
-            gap: 15px;
-        }
+        .settings-row { margin-bottom: 20px; }
+        .theme-options { display: flex; gap: 12px; }
         .theme-option {
-            border: 1px solid var(--input-border);
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
+            flex: 1; border: 1px solid var(--input-border); padding: 12px;
+            border-radius: 6px; cursor: pointer; text-align: center; font-weight: 700;
+            font-size: 0.9rem; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .theme-option.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
+        .theme-option.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
         
-        .usage-list { padding-left: 20px; }
-        .usage-list li { margin-bottom: 10px; }
+        .usage-list { padding-left: 24px; margin-bottom: 20px; }
+        .usage-list li { margin-bottom: 12px; font-size: 0.95rem; }
         .usage-tip {
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--gold);
-            padding: 10px 15px;
-            margin: 10px 0;
-            font-size: 0.9rem;
-            border-radius: 4px;
-        }
-        body.dark-mode .usage-tip {
-            background-color: #2c2c2c;
+            background-color: var(--card-alt); border-left: 4px solid var(--premium-gold);
+            padding: 12px 16px; margin: 16px 0; font-size: 0.9rem; border-radius: 0 6px 6px 0; font-weight: 500;
         }
         
-        /* ============================
-           AI分析アニメーション
-           ============================ */
+        /* ------------------------------------------------------------------
+           AI分析アニメーション (Refined for Suite)
+        ------------------------------------------------------------------ */
         .ai-analysis-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(15, 25, 50, 0.92);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            display: none; position: fixed; inset: 0;
+            background: rgba(15, 17, 21, 0.95); backdrop-filter: blur(8px);
+            z-index: 3000; justify-content: center; align-items: center; flex-direction: column;
         }
         .ai-analysis-overlay.active { display: flex; }
         
-        body.dark-mode .ai-analysis-overlay {
-            background: rgba(0, 0, 0, 0.93);
-        }
+        .court-stage { position: relative; width: 280px; height: 200px; margin-bottom: 40px; }
         
-        .court-stage {
-            position: relative;
-            width: 280px;
-            height: 200px;
-            margin-bottom: 40px;
-        }
-        
-        /* 天秤のアニメーション */
         .scale-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 6rem;
-            animation: scaleSwing 2.2s ease-in-out infinite;
-            transform-origin: center top;
-            filter: drop-shadow(0 0 20px rgba(201, 169, 97, 0.6));
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 5rem; color: var(--premium-gold);
+            animation: scaleSwing 2.2s ease-in-out infinite; transform-origin: center top;
+            filter: drop-shadow(0 0 20px rgba(197, 160, 89, 0.6));
         }
-        @keyframes scaleSwing {
-            0%, 100% { transform: translate(-50%, -50%) rotate(-8deg); }
-            50% { transform: translate(-50%, -50%) rotate(8deg); }
-        }
+        @keyframes scaleSwing { 0%, 100% { transform: translate(-50%, -50%) rotate(-8deg); } 50% { transform: translate(-50%, -50%) rotate(8deg); } }
         
-        /* 光輪エフェクト */
         .halo {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 200px; height: 200px;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            border: 2px solid rgba(201, 169, 97, 0.4);
+            position: absolute; top: 50%; left: 50%; width: 200px; height: 200px;
+            transform: translate(-50%, -50%); border-radius: 50%; border: 2px solid rgba(197, 160, 89, 0.4);
             animation: haloPulse 2s ease-out infinite;
         }
         .halo:nth-child(2) { animation-delay: 0.6s; }
         .halo:nth-child(3) { animation-delay: 1.2s; }
-        @keyframes haloPulse {
-            0% {
-                width: 100px; height: 100px;
-                opacity: 0.8;
-            }
-            100% {
-                width: 280px; height: 280px;
-                opacity: 0;
-            }
-        }
+        @keyframes haloPulse { 0% { width: 100px; height: 100px; opacity: 0.8; } 100% { width: 280px; height: 280px; opacity: 0; } }
         
-        /* ガベル（法槌）のエフェクト */
         .gavel-effect {
-            position: absolute;
-            top: 20%;
-            right: 10%;
-            font-size: 2.5rem;
-            animation: gavelStrike 1.8s ease-in-out infinite;
-            transform-origin: bottom right;
+            position: absolute; top: 20%; right: 10%; font-size: 3rem; color: var(--premium-gold);
+            animation: gavelStrike 1.8s ease-in-out infinite; transform-origin: bottom right; filter: drop-shadow(0 0 10px rgba(197,160,89,0.3));
         }
-        @keyframes gavelStrike {
-            0%, 80%, 100% { transform: rotate(0deg); opacity: 0.7; }
-            40% { transform: rotate(-30deg); opacity: 1; }
-            50% { transform: rotate(10deg); opacity: 1; }
-        }
+        @keyframes gavelStrike { 0%, 80%, 100% { transform: rotate(0deg); opacity: 0.7; } 40% { transform: rotate(-30deg); opacity: 1; } 50% { transform: rotate(10deg); opacity: 1; } }
         
-        /* 書類が舞うアニメーション */
-        .floating-papers {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-        .paper {
-            position: absolute;
-            font-size: 1.5rem;
-            opacity: 0.5;
-            animation: floatPaper 4s ease-in-out infinite;
-        }
+        .floating-papers { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+        .paper { position: absolute; font-size: 1.8rem; color: rgba(255,255,255,0.8); opacity: 0.5; animation: floatPaper 4s ease-in-out infinite; }
         .paper:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
         .paper:nth-child(2) { left: 85%; top: 30%; animation-delay: 1s; }
         .paper:nth-child(3) { left: 15%; top: 70%; animation-delay: 2s; }
         .paper:nth-child(4) { left: 80%; top: 75%; animation-delay: 3s; }
-        @keyframes floatPaper {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
-            50% { transform: translateY(-20px) rotate(10deg); opacity: 0.6; }
-        }
+        @keyframes floatPaper { 0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.2; } 50% { transform: translateY(-20px) rotate(10deg); opacity: 0.5; } }
         
-        .ai-status-text {
-            color: #fff;
-            font-size: 1.3rem;
-            font-weight: bold;
-            letter-spacing: 0.05em;
-            text-align: center;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-        .ai-sub-text {
-            color: var(--gold);
-            font-size: 0.95rem;
-            text-align: center;
-            min-height: 24px;
-            transition: opacity 0.3s;
-        }
+        .ai-status-text { color: #fff; font-size: 1.2rem; font-weight: 700; letter-spacing: 0.05em; text-align: center; margin-bottom: 12px; }
+        .ai-sub-text { color: var(--premium-gold); font-size: 0.95rem; font-weight: 700; text-align: center; min-height: 24px; transition: opacity 0.3s; }
         
-        /* ローディングドット */
-        .loading-dots {
-            display: inline-block;
-            margin-left: 5px;
-        }
-        .loading-dots span {
-            display: inline-block;
-            animation: dotBounce 1.4s infinite ease-in-out both;
-            color: var(--gold);
-        }
+        .loading-dots { display: inline-block; margin-left: 4px; }
+        .loading-dots span { display: inline-block; animation: dotBounce 1.4s infinite ease-in-out both; color: var(--premium-gold); }
         .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
         .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes dotBounce {
-            0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
-            40% { transform: scale(1.2); opacity: 1; }
-        }
+        @keyframes dotBounce { 0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
         
-        /* プログレスバー */
-        .progress-bar-wrap {
-            width: 280px;
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-top: 25px;
-        }
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--gold), #ffd700, var(--gold));
-            background-size: 200% 100%;
-            width: 0%;
-            animation: progressGrow 30s ease-out forwards, shimmer 2s linear infinite;
-        }
-        @keyframes progressGrow {
-            0% { width: 5%; }
-            20% { width: 40%; }
-            50% { width: 70%; }
-            80% { width: 85%; }
-            100% { width: 95%; }
-        }
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
+        .progress-bar-wrap { width: 280px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin-top: 25px; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--premium-gold), #f0e6d2, var(--premium-gold)); background-size: 200% 100%; width: 0%; animation: progressGrow 30s ease-out forwards, shimmer 2s linear infinite; }
+        @keyframes progressGrow { 0% { width: 5%; } 20% { width: 40%; } 50% { width: 70%; } 80% { width: 85%; } 100% { width: 95%; } }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
         @media (max-width: 900px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            .header-right {
-                width: 100%;
-                justify-content: flex-end;
-                flex-wrap: wrap;
-            }
             .row-1 { grid-template-columns: 1fr 1fr; }
             .row-2 { grid-template-columns: 1fr; }
             .main-columns { grid-template-columns: 1fr; }
             .todo-input-area { flex-direction: column; align-items: stretch; }
             .output-area { flex-direction: column; align-items: center; }
+            .output-btn-group { max-width: 100%; width: 100%; }
+            .header-right .header-link-btn span { display: none; } /* Hide text on small screens */
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- ヘッダーと案件情報ブロックをまとめて上部に固定するためのラッパー -->
-    <div class="top-sticky-wrapper">
-        <header>
-            <div class="header-left">
-                <div class="app-logo">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
-                        <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>
-                        <path d="M7 21h10"/>
-                        <path d="M12 3v18"/>
-                        <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>
-                    </svg>
-                </div>
-                <h1>
-                    弁護士思考コンパス
-                    <span class="sub-catchphrase">書く時間を減らし、考える時間を増やす。</span>
-                </h1>
-            </div>
-            <div class="header-right">
-                <!-- 外部アプリリンク追加 -->
-                <a href="https://spc-jp.github.io/syomen-check/" target="_blank" class="header-link-btn" title="書面チェックくんを別タブで開く">
-                    📄 書面チェックくん
-                </a>
-                <a href="https://spc-jp.github.io/tokumeikakun/" target="_blank" class="header-link-btn" title="匿名化くんを別タブで開く">
-                    🔒 匿名化くん
-                </a>
-                <div class="header-separator"></div>
-                <!-- 既存のボタン群 -->
-                <button class="btn-text" onclick="openModal('usageModal')">
-                    <span>📖</span> 使い方
-                </button>
-                <button class="icon-btn" onclick="openSettingsModal()" title="設定">
-                    ⚙️
-                </button>
-            </div>
-        </header>
+<!-- Suite共通ヘッダー -->
+<header class="suite-header">
+    <div class="header-left">
+        <a href="#" class="logo-mark" title="トップへ"><i class="ph-fill ph-compass"></i></a>
+        <div class="logo-text">
+            <h1>弁護士思考コンパス</h1>
+            <p>書く時間を減らし、考える時間を増やす。</p>
+        </div>
+    </div>
+    <div class="header-right">
+        <!-- 連携ツールへのリンク -->
+        <a href="https://spc-jp.github.io/syomen-check/" target="_blank" class="header-link-btn" title="書面チェックくんを別タブで開く">
+            <i class="ph-fill ph-file-magnifying-glass"></i> <span>書面チェック</span>
+        </a>
+        <a href="https://spc-jp.github.io/tokumeikakun/" target="_blank" class="header-link-btn" title="匿名化くんを別タブで開く">
+            <i class="ph-fill ph-eye-slash"></i> <span>匿名化</span>
+        </a>
+        <div class="header-separator"></div>
+        <!-- ツール内アクション -->
+        <button class="icon-btn-header" onclick="openModal('usageModal')" title="使い方">
+            <i class="ph-bold ph-book-open"></i>
+        </button>
+        <button class="icon-btn-header" onclick="openSettingsModal()" title="設定">
+            <i class="ph-bold ph-gear"></i>
+        </button>
+    </div>
+</header>
 
+<div class="container">
+    <!-- 固定ラッパー（ヘッダー下） -->
+    <div class="top-sticky-wrapper">
         <section class="card" id="case-header">
             <div class="case-header-grid">
                 <div class="row-1">
@@ -796,9 +529,9 @@
                     </div>
                     <div>
                         <label>最重要期限</label>
-                        <div style="display: flex; gap: 5px; align-items: center;">
+                        <div style="display: flex; gap: 8px; align-items: center;">
                             <input type="date" id="deadline" style="margin-bottom: 0;">
-                            <button class="btn btn-outline btn-sm" onclick="addDeadlineEventToCalendar()" title="Googleカレンダーに登録" style="padding: 6px 10px;">📅</button>
+                            <button class="btn btn-outline" onclick="addDeadlineEventToCalendar()" title="Googleカレンダーに登録" style="padding: 8px 12px;"><i class="ph-bold ph-calendar-plus"></i></button>
                         </div>
                     </div>
                     <div class="conflict-check-group">
@@ -817,8 +550,8 @@
     <div class="main-columns">
         <div class="col card">
             <h2>
-                <span>相談・事実関係</span>
-                <button class="copy-icon-btn" onclick="copyTextarea('facts', this)">📋 コピー</button>
+                <span><i class="ph-fill ph-clock-counter-clockwise"></i> 相談・事実関係</span>
+                <button class="copy-icon-btn" onclick="copyTextarea('facts', this)"><i class="ph-bold ph-copy"></i> コピー</button>
             </h2>
             <select onchange="insertTemplate('facts', this.value); this.value='';" class="template-select">
                 <option value="" disabled selected>▼ よくある相談雛形を挿入</option>
@@ -830,18 +563,18 @@
             </select>
             <textarea id="facts" placeholder="・時系列&#10;・相談者が主張する事実&#10;・証拠の有無"></textarea>
             
-            <div style="margin-top: 10px; text-align: center;">
-                <button class="btn btn-sm" style="background-color: #8e44ad; width: 100%; display: flex; justify-content: center; align-items: center; gap: 5px;" onclick="runAiAnalysis(this)">
-                    <span id="aiBtnIcon">🤖</span> <span id="aiBtnText">AIに論点を自動分析させる</span>
+            <div style="margin-top: 12px; text-align: center;">
+                <button class="btn btn-ai" onclick="runAiAnalysis(this)">
+                    <i class="ph-fill ph-sparkle" id="aiBtnIcon"></i> <span id="aiBtnText">AIに論点を自動分析させる</span>
                 </button>
-                <div style="font-size: 0.7rem; color: #666; margin-top: 3px;">※AIが中央カラムに論点候補を自動出力します</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 6px; font-weight: 700;">※AIが中央カラムに論点候補を自動出力します</div>
             </div>
         </div>
 
         <div class="col card">
             <h2>
-                <span>論点・判例メモ</span>
-                <button class="copy-icon-btn" onclick="copyTextarea('issues', this)">📋 コピー</button>
+                <span><i class="ph-fill ph-scales"></i> 論点・判例メモ</span>
+                <button class="copy-icon-btn" onclick="copyTextarea('issues', this)"><i class="ph-bold ph-copy"></i> コピー</button>
             </h2>
             <select onchange="insertTemplate('issues', this.value); this.value='';" class="template-select">
                 <option value="" disabled selected>▼ 調査・検討フレームを挿入</option>
@@ -856,8 +589,8 @@
 
         <div class="col card">
             <h2>
-                <span>方針・リスク整理</span>
-                <button class="copy-icon-btn" onclick="copyTextarea('strategy', this)">📋 コピー</button>
+                <span><i class="ph-fill ph-strategy"></i> 方針・リスク整理</span>
+                <button class="copy-icon-btn" onclick="copyTextarea('strategy', this)"><i class="ph-bold ph-copy"></i> コピー</button>
             </h2>
             <select onchange="insertTemplate('strategy', this.value); this.value='';" class="template-select">
                 <option value="" disabled selected>▼ 対応・アクション案を挿入</option>
@@ -891,17 +624,17 @@
                     <input type="text" id="feeLitigation" placeholder="例：33〜">
                     <span class="fee-unit">万円</span>
                 </div>
-                <label style="margin-top:5px;">備考（日当・実費等）</label>
+                <label style="margin-top:8px;">備考（日当・実費等）</label>
                 <textarea id="feeRemarks" style="min-height: 60px;" placeholder="実費別、日当3.3万/回 など"></textarea>
             </div>
         </div>
     </div>
 
     <section class="card" id="todo-section">
-        <h2>ToDo／期限管理</h2>
-        <div style="margin-bottom: 10px; text-align: right;">
-            <button class="btn btn-outline btn-sm" onclick="insertTemplateTodo()">相談内容からToDo雛形を挿入</button>
-        </div>
+        <h2>
+            <span><i class="ph-fill ph-check-square"></i> ToDo／期限管理</span>
+            <button class="btn btn-outline" style="padding: 4px 10px; font-size:0.8rem;" onclick="insertTemplateTodo()"><i class="ph-bold ph-list-plus"></i> 雛形挿入</button>
+        </h2>
         
         <div class="todo-input-area">
             <div style="flex: 2;">
@@ -920,7 +653,7 @@
                     <option value="低">低</option>
                 </select>
             </div>
-            <button class="btn" onclick="addTodo()">追加</button>
+            <button class="btn" onclick="addTodo()"><i class="ph-bold ph-plus"></i> 追加</button>
         </div>
 
         <ul id="todoList" class="todo-list"></ul>
@@ -928,15 +661,15 @@
 
     <footer class="output-area">
         <div class="output-btn-group">
-            <button class="btn" style="background-color: #555;" onclick="generateOutput('internal')">① 事務所内共有用 出力</button>
+            <button class="btn" style="background-color: var(--text-muted);" onclick="generateOutput('internal')"><i class="ph-bold ph-users"></i> ① 事務所内共有用</button>
             <span class="output-desc">詳細・メモ含む全文</span>
         </div>
         <div class="output-btn-group">
-            <button class="btn" style="background-color: var(--primary-color);" onclick="generateOutput('client')">② 依頼者説明用 出力</button>
+            <button class="btn" style="background-color: var(--primary-color);" onclick="generateOutput('client')"><i class="ph-bold ph-envelope-simple"></i> ② 依頼者説明用</button>
             <span class="output-desc">方針・費用を中心に整理</span>
         </div>
         <div class="output-btn-group">
-            <button class="btn" style="background-color: #27ae60;" onclick="generateOutput('estimate')">③ 見積たたき用 出力</button>
+            <button class="btn" style="background-color: var(--success-color);" onclick="generateOutput('estimate')"><i class="ph-bold ph-calculator"></i> ③ 見積たたき用</button>
             <span class="output-desc">概算費用のみ抽出</span>
         </div>
     </footer>
@@ -949,23 +682,23 @@
 </div>
 
 <footer class="main-footer">
-    テスト版（ベータ版） © 2026 SPC
+    Suite 版 © 2026 Legal Thinking Compass
 </footer>
 
 <!-- ===== AI分析アニメーション オーバーレイ ===== -->
 <div class="ai-analysis-overlay" id="aiOverlay">
     <div class="court-stage">
         <div class="floating-papers">
-            <span class="paper">📄</span>
-            <span class="paper">📜</span>
-            <span class="paper">📑</span>
-            <span class="paper">⚖️</span>
+            <i class="ph-fill ph-file-text paper"></i>
+            <i class="ph-fill ph-file-doc paper"></i>
+            <i class="ph-fill ph-files paper"></i>
+            <i class="ph-fill ph-file-magnifying-glass paper"></i>
         </div>
         <div class="halo"></div>
         <div class="halo"></div>
         <div class="halo"></div>
-        <div class="scale-container">⚖️</div>
-        <div class="gavel-effect">🔨</div>
+        <div class="scale-container"><i class="ph-fill ph-scales"></i></div>
+        <div class="gavel-effect"><i class="ph-fill ph-gavel"></i></div>
     </div>
     <div class="ai-status-text">
         AIが法的論点を分析中<span class="loading-dots"><span>●</span><span>●</span><span>●</span></span>
@@ -980,21 +713,21 @@
 <div class="modal-overlay" id="settingsModal">
     <div class="modal modal-sm">
         <div class="modal-header">
-            <h3 style="margin: 0;">⚙️ 設定</h3>
-            <button class="close-icon-btn" onclick="closeSettingsModal()">×</button>
+            <h3><i class="ph-fill ph-gear"></i> 設定</h3>
+            <button class="close-icon-btn" onclick="closeSettingsModal()"><i class="ph-bold ph-x"></i></button>
         </div>
         <div class="modal-body">
             <div class="settings-row">
                 <label>画面テーマ</label>
                 <div class="theme-options">
-                    <div class="theme-option active" id="themeLight" onclick="setTheme('light')">☀️ ライト</div>
-                    <div class="theme-option" id="themeDark" onclick="setTheme('dark')">🌙 ダーク</div>
+                    <div class="theme-option active" id="themeLight" onclick="setTheme('light')"><i class="ph-bold ph-sun"></i> ライト</div>
+                    <div class="theme-option" id="themeDark" onclick="setTheme('dark')"><i class="ph-bold ph-moon"></i> ダーク</div>
                 </div>
             </div>
-            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+            <hr style="border:0; border-top:1px solid var(--input-border); margin:24px 0;">
             <div class="settings-row">
                 <label>弁護士基本情報（出力時に署名として使用）</label>
-                <div style="margin-bottom:10px;">
+                <div style="margin-bottom:12px;">
                     <label>事務所名</label>
                     <input type="text" id="lawyerOffice" placeholder="例：東京中央法律事務所">
                 </div>
@@ -1004,7 +737,7 @@
                 </div>
             </div>
         </div>
-        <div style="margin-top: 15px; text-align: right;">
+        <div style="margin-top: 20px; text-align: right;">
             <button class="btn" onclick="closeSettingsModal()">保存して閉じる</button>
         </div>
     </div>
@@ -1012,10 +745,10 @@
 
 <!-- 使い方モーダル -->
 <div class="modal-overlay" id="usageModal">
-    <div class="modal modal-sm">
+    <div class="modal">
         <div class="modal-header">
-            <h3 style="margin: 0;">📖 使い方ガイド</h3>
-            <button class="close-icon-btn" onclick="closeModal('usageModal')">×</button>
+            <h3><i class="ph-fill ph-book-open"></i> 使い方ガイド</h3>
+            <button class="close-icon-btn" onclick="closeModal('usageModal')"><i class="ph-bold ph-x"></i></button>
         </div>
         <div class="modal-body">
             <h4>このアプリの目的</h4>
@@ -1033,7 +766,7 @@
             </ol>
             
             <div class="usage-tip">
-                💡 ヒント：各カラム右上の「📋 コピー」ボタンで、そのカラムのテキストだけを個別にコピーできます。メールやチャットに直接貼り付けるときに便利です。
+                <i class="ph-fill ph-lightbulb"></i> ヒント：各カラムの「コピー」ボタンで、そのカラムのテキストだけを個別にコピーできます。メールやチャットに直接貼り付けるときに便利です。
             </div>
             
             <h4>出力の使い分け</h4>
@@ -1045,18 +778,17 @@
             
             <h4>便利機能</h4>
             <ul class="usage-list">
-                <li><strong>デモデータを入力</strong><br>フッターの「デモデータを入力」で、動作確認用のサンプルが入ります。</li>
-                <li><strong>入力をクリア</strong><br>すべての入力内容をリセットします（事務所名・弁護士名は保持）。</li>
-                <li><strong>ダークモード</strong><br>右上の⚙️から切り替え可能。夜間業務にも目に優しい配色です。</li>
-                <li><strong>事務所情報の登録</strong><br>⚙️設定から事務所名・弁護士名を登録すると、出力時に自動で署名されます。</li>
+                <li><strong>Suite連携</strong><br>ヘッダー右上のリンクから「書面チェックくん」「匿名化くん」へワンクリックでアクセスできます。</li>
+                <li><strong>ダークモード</strong><br>右上の設定から切り替え可能。夜間業務にも目に優しい配色です。</li>
+                <li><strong>事務所情報の登録</strong><br>設定から事務所名・弁護士名を登録すると、出力時に自動で署名されます。</li>
             </ul>
 
-            <div class="usage-tip">
-                ⚠️ 注意：AIの分析は参考情報です。最終的な判断は必ず弁護士ご自身で行ってください。また、依頼者情報など機密事項の入力はテスト版のため控えめにお願いします。
+            <div class="usage-tip" style="border-left-color: var(--warn-color); background: rgba(243, 156, 18, 0.1);">
+                <i class="ph-fill ph-warning"></i> 注意：AIの分析は参考情報です。最終的な判断は必ず弁護士ご自身で行ってください。
             </div>
         </div>
-        <div style="margin-top: 15px; text-align: right;">
-            <button class="btn" onclick="closeModal('usageModal')">閉じる</button>
+        <div style="margin-top: 20px; text-align: right;">
+            <button class="btn btn-outline" onclick="closeModal('usageModal')">閉じる</button>
         </div>
     </div>
 </div>
@@ -1065,14 +797,14 @@
 <div class="modal-overlay" id="outputModal">
     <div class="modal">
         <div class="modal-header">
-            <h3 id="modalTitle" style="margin: 0;">出力結果</h3>
-            <button class="close-icon-btn" onclick="closeModal('outputModal')">×</button>
+            <h3 id="modalTitle" style="margin: 0;"><i class="ph-fill ph-export"></i> 出力結果</h3>
+            <button class="close-icon-btn" onclick="closeModal('outputModal')"><i class="ph-bold ph-x"></i></button>
         </div>
         <div class="modal-body">
             <textarea id="outputText"></textarea>
         </div>
-        <div style="margin-top: 10px; text-align: right;">
-            <button class="btn" onclick="copyToClipboard('outputText', this)">📋 クリップボードにコピー</button>
+        <div style="margin-top: 20px; text-align: right;">
+            <button class="btn" onclick="copyToClipboard('outputText', this)"><i class="ph-bold ph-copy"></i> クリップボードにコピー</button>
         </div>
     </div>
 </div>
@@ -1125,14 +857,12 @@
     });
 
     function openSettingsModal() {
-        // 設定モーダルを開いたときに現在のテーマ状態を正しく反映
         const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
         updateThemeButtonUI(currentTheme);
         openModal('settingsModal');
     }
 
     function closeSettingsModal() {
-        // 事務所情報をlocalStorageに保存
         localStorage.setItem('lawyerOffice', document.getElementById('lawyerOffice').value);
         localStorage.setItem('lawyerName', document.getElementById('lawyerName').value);
         closeModal('settingsModal');
@@ -1145,7 +875,7 @@
         document.getElementById(id).style.display = 'none';
     }
 
-    // ========= テーマ切替（localStorage保存対応） =========
+    // ========= テーマ切替 =========
     function setTheme(mode) {
         applyTheme(mode);
         localStorage.setItem('theme', mode);
@@ -1187,22 +917,21 @@
         const text = textarea.value;
         
         if (!text.trim()) {
-            const originalText = btnElement.innerText;
-            btnElement.innerText = '⚠️ 空です';
+            const originalText = btnElement.innerHTML;
+            btnElement.innerHTML = '<i class="ph-bold ph-warning"></i> 空です';
             setTimeout(() => {
-                btnElement.innerText = originalText;
+                btnElement.innerHTML = originalText;
             }, 1500);
             return;
         }
         
-        // モダンなclipboard APIを優先、失敗したらfallback
         const showSuccess = () => {
-            const originalText = btnElement.innerText;
+            const originalText = btnElement.innerHTML;
             btnElement.classList.add('copied');
-            btnElement.innerText = '✓ コピー完了';
+            btnElement.innerHTML = '<i class="ph-bold ph-check"></i> コピー完了';
             setTimeout(() => {
                 btnElement.classList.remove('copied');
-                btnElement.innerText = originalText;
+                btnElement.innerHTML = originalText;
             }, 1800);
         };
         
@@ -1223,10 +952,10 @@
             window.getSelection().removeAllRanges();
             successCallback();
         } catch(e) {
-            const originalText = btnElement.innerText;
-            btnElement.innerText = '❌ 失敗';
+            const originalText = btnElement.innerHTML;
+            btnElement.innerHTML = '<i class="ph-bold ph-x"></i> 失敗';
             setTimeout(() => {
-                btnElement.innerText = originalText;
+                btnElement.innerHTML = originalText;
             }, 1500);
         }
     }
@@ -1243,21 +972,20 @@
         if(priority === '低') priorityClass = 'priority-low';
 
         li.innerHTML = `
-            <input type="checkbox">
+            <input type="checkbox" style="width:18px;height:18px;cursor:pointer;">
             <span class="${priorityClass}">${priority}</span>
             <div style="flex:1">
-                <div class="todo-text"></div>
-                <div style="font-size:0.8rem; color:var(--text-color); opacity:0.7;">期限: ${date || '未定'}</div>
+                <div class="todo-text" style="font-weight:700; font-size:0.95rem;"></div>
+                <div style="font-size:0.8rem; color:var(--text-muted);">期限: ${date || '未定'}</div>
             </div>
-            <button class="btn-text" style="font-size:1.2rem; padding:0 5px;" title="Googleカレンダーに登録">📅</button>
-            <button class="btn btn-outline btn-sm del-btn" style="padding:2px 6px;">×</button>
+            <button class="cal-btn" title="Googleカレンダーに登録"><i class="ph-bold ph-calendar-plus"></i></button>
+            <button class="del-btn" title="削除"><i class="ph-bold ph-trash"></i></button>
         `;
         
         li.querySelector('.todo-text').textContent = text;
         li.querySelector('.del-btn').onclick = () => li.remove();
         
-        // カレンダー登録ボタンのイベント
-        const calBtn = li.querySelectorAll('button')[0];
+        const calBtn = li.querySelector('.cal-btn');
         calBtn.onclick = () => addTodoEventToCalendar(text, date, priority);
         
         todoListElement.appendChild(li);
@@ -1336,7 +1064,6 @@
         openGoogleCalendar(title, dateStr, desc);
     }
 
-    // 分野に応じたToDoテンプレート
     const TODO_TEMPLATES_BY_FIELD = {
         '債権回収': [
             { text: '契約書・請求書の有無確認', priority: '高' },
@@ -1455,7 +1182,6 @@
         document.getElementById('feeLitigation').value = '33';
         document.getElementById('feeRemarks').value = '日当3.3万円/回、実費別';
 
-        // 事務所情報がまだ空なら、デモとして入れる
         if (!document.getElementById('lawyerOffice').value) {
             document.getElementById('lawyerOffice').value = '丸の内総合法律事務所';
         }
@@ -1467,11 +1193,9 @@
         insertTemplateTodo();
     }
 
-    // ========= クリア機能（事務所情報は保護） =========
     function clearData() {
         if(!confirm('入力内容をすべて消去しますか？\n※設定済みの事務所名・弁護士名は保持されます。')) return;
         
-        // 保護対象のID
         const protectedIds = ['lawyerOffice', 'lawyerName'];
         
         const inputs = document.querySelectorAll('input:not([type="password"]), textarea, select');
@@ -1490,7 +1214,7 @@
         todoListElement.innerHTML = '';
     }
 
-    // ========= AI分析（Workers経由） + アニメーション =========
+    // ========= AI分析（Workers経由） =========
     const AI_STATUS_MESSAGES = [
         '事実関係を精査しています',
         '要件事実を整理中です',
@@ -1504,8 +1228,6 @@
 
     function showAiOverlay() {
         document.getElementById('aiOverlay').classList.add('active');
-        
-        // サブメッセージを順次切り替え
         let idx = 0;
         const subText = document.getElementById('aiSubText');
         subText.innerText = AI_STATUS_MESSAGES[0];
@@ -1531,7 +1253,6 @@
     async function runAiAnalysis(btn) {
         const field = document.getElementById('field').value;
         const facts = document.getElementById('facts').value;
-        
         const apiUrl = 'https://bengoshi-shikou-compass.yymmatsu.workers.dev/';
 
         if (!facts.trim()) {
@@ -1557,27 +1278,20 @@ ${facts}
 ※重要：出力テキストにマークダウン記号（** や # など）は一切使用せず、プレーンテキストのみで出力してください。`;
 
         const btnText = document.getElementById('aiBtnText');
-        const btnIcon = document.getElementById('aiBtnIcon');
-        const originalText = btnText.innerText;
+        const originalHtml = btn.innerHTML;
         
         try {
             btn.disabled = true;
-            btnText.innerText = "AIが分析中...";
-            btnIcon.innerText = "⏳";
+            btn.innerHTML = '<i class="ph-bold ph-spinner loading-dots" style="margin:0; animation:spin 1s linear infinite;"></i> <span id="aiBtnText">AIが分析中...</span>';
             btn.style.opacity = "0.7";
             btn.style.cursor = "not-allowed";
             
-            // アニメーションオーバーレイ表示
             showAiOverlay();
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    promptText: promptText
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ promptText: promptText })
             });
 
             if (!response.ok) {
@@ -1587,15 +1301,13 @@ ${facts}
 
             const data = await response.json();
             let aiResult = data.content[0].text;
-            
-            // 念のため、AIがマークダウン記号を出力した場合に備えて削除（置換）する処理
             aiResult = aiResult.replace(/\*\*/g, '').replace(/#/g, '');
 
             const issuesTextarea = document.getElementById('issues');
             issuesTextarea.value = `【AI分析結果】\n${aiResult}\n\n------------------------\n` + issuesTextarea.value;
             
             issuesTextarea.style.transition = "background-color 0.5s";
-            issuesTextarea.style.backgroundColor = "rgba(46, 204, 113, 0.2)";
+            issuesTextarea.style.backgroundColor = "rgba(46, 204, 113, 0.1)";
             setTimeout(() => {
                 issuesTextarea.style.backgroundColor = "var(--input-bg)";
             }, 1500);
@@ -1605,8 +1317,7 @@ ${facts}
         } finally {
             hideAiOverlay();
             btn.disabled = false;
-            btnText.innerText = originalText;
-            btnIcon.innerText = "🤖";
+            btn.innerHTML = originalHtml;
             btn.style.opacity = "1";
             btn.style.cursor = "pointer";
         }
@@ -1640,7 +1351,7 @@ ${facts}
         };
 
         document.querySelectorAll('.todo-item').forEach(item => {
-            const text = item.querySelector('div > div').innerText;
+            const text = item.querySelector('.todo-text').innerText;
             const meta = item.querySelector('div > div:nth-child(2)').innerText;
             const checked = item.querySelector('input[type="checkbox"]').checked ? '■' : '□';
             d.todos.push(`${checked} ${text} (${meta})`);
@@ -1697,10 +1408,13 @@ ${facts}
             output += lawyerSign;
         }
 
-        document.getElementById('modalTitle').innerText = 
-            type === 'internal' ? '① 事務所内共有用' : 
-            type === 'client' ? '② 依頼者説明用' : '③ 見積たたき台';
+        const icons = {
+            'internal': '<i class="ph-bold ph-users"></i> ① 事務所内共有用',
+            'client': '<i class="ph-bold ph-envelope-simple"></i> ② 依頼者説明用',
+            'estimate': '<i class="ph-bold ph-calculator"></i> ③ 見積たたき台'
+        };
         
+        document.getElementById('modalTitle').innerHTML = icons[type];
         document.getElementById('outputText').value = output;
         document.getElementById('outputModal').style.display = 'flex';
     }
@@ -1710,15 +1424,13 @@ ${facts}
         const text = copyText.value;
         
         const showSuccess = () => {
-            const originalText = btnElement.innerText;
-            const originalBg = btnElement.style.backgroundColor;
-            
-            btnElement.innerText = "✓ コピー完了！";
-            btnElement.style.backgroundColor = "#27ae60"; 
+            const originalText = btnElement.innerHTML;
+            btnElement.innerHTML = '<i class="ph-bold ph-check"></i> コピー完了！';
+            btnElement.style.backgroundColor = "var(--success-color)"; 
             
             setTimeout(() => {
-                btnElement.innerText = originalText;
-                btnElement.style.backgroundColor = originalBg;
+                btnElement.innerHTML = originalText;
+                btnElement.style.backgroundColor = "";
             }, 2000);
         };
         
@@ -1739,15 +1451,19 @@ ${facts}
             window.getSelection().removeAllRanges();
             successCallback();
         } catch (err) {
-            btnElement.innerText = "❌ コピー失敗";
-            btnElement.style.backgroundColor = "#e74c3c"; 
+            btnElement.innerHTML = '<i class="ph-bold ph-x"></i> コピー失敗';
+            btnElement.style.backgroundColor = "var(--accent-color)"; 
             setTimeout(() => {
-                btnElement.innerText = "📋 クリップボードにコピー";
+                btnElement.innerHTML = '<i class="ph-bold ph-copy"></i> クリップボードにコピー';
                 btnElement.style.backgroundColor = "";
             }, 2000);
         }
     }
 </script>
+
+<style>
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+</style>
 
 </body>
 </html>
